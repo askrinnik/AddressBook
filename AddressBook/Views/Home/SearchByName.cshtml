@@ -1,0 +1,44 @@
+﻿@using AddressBook
+@model IEnumerable<AddressBook.DataAccess.Person>
+
+<div id="SearchResults">
+  @if (Model == null || !Model.Any())
+  {
+    return;
+  }
+  <table>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Name)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.SurName)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.BirthDay)
+      </th>
+      <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.SurName)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.BirthDay)
+        </td>
+        <td>
+          @Html.ActionLink(@Resources.Edit, "Edit", new { id = item.Id }) |
+                @Html.ActionLink(@Resources.Details, "Details", new { id = item.Id }) |
+                @Html.ActionLink(@Resources.Delete, "Delete", new { id = item.Id }) |
+                @Html.ActionLink(@Resources.Phones, "Index", "Phone", new { id = item.Id }, null)
+        </td>
+      </tr>
+    }
+  </table>
+</div>

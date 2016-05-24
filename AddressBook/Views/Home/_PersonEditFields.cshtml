@@ -1,0 +1,26 @@
+﻿@model AddressBook.DataAccess.Person
+
+<div class="editor-label">
+  @Html.LabelFor(model => model.Name)
+</div>
+<div class="editor-field">
+  @Html.EditorFor(model => model.Name)
+  @Html.ValidationMessageFor(model => model.Name)
+</div>
+
+<div class="editor-label">
+  @Html.LabelFor(model => model.SurName)
+</div>
+<div class="editor-field">
+  @Html.EditorFor(model => model.SurName)
+  @Html.ValidationMessageFor(model => model.SurName)
+</div>
+
+<div class="editor-label">
+  @Html.LabelFor(model => model.BirthDay)
+</div>
+<div class="editor-field">
+  @Html.EditorFor(model => model.BirthDay)
+  @Html.ValidationMessageFor(model => model.BirthDay)
+</div>
+

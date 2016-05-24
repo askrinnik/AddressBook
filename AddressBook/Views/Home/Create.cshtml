@@ -1,0 +1,31 @@
+﻿@model AddressBook.DataAccess.Person
+
+@{
+  ViewBag.Title = "Create";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm())
+{
+  @Html.AntiForgeryToken()
+  @Html.ValidationSummary(true)
+
+  <fieldset>
+    <legend>Person</legend>
+    
+    @Html.Partial("_PersonEditFields")
+
+    <p>
+      <input type="submit" value="Создать" />
+    </p>
+  </fieldset>
+}
+
+<div>
+  @Html.ActionLink("Назад", "Index")
+</div>
+
+@section Scripts {
+  @Scripts.Render("~/bundles/jqueryval")
+}

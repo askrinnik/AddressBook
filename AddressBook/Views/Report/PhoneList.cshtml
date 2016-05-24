@@ -1,0 +1,30 @@
+﻿@model IEnumerable<AddressBook.Models.PhoneList>
+
+@{
+    ViewBag.Title = "PhoneList";
+}
+
+<h2>PhoneList</h2>
+
+<table>
+  <tr>
+    <th>
+      @Html.DisplayNameFor(model => model.PersonName)
+    </th>
+    <th>
+      @Html.DisplayNameFor(model => model.PersonPhone)
+    </th>
+  </tr>
+
+  @foreach (var item in Model) {
+    <tr>
+      <td>
+        @Html.ActionLink(item.PersonName, "Edit", "Home", new { id=item.PersonId }, null)
+      </td>
+      <td>
+        @Html.ActionLink(item.PersonPhone, "Edit", "Phone", new { id=item.PhoneId }, null)
+      </td>
+    </tr>
+  }
+
+</table>

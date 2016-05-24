@@ -1,0 +1,33 @@
+﻿@using AddressBook
+@model IEnumerable<AddressBook.DataAccess.Person>
+
+@{
+  ViewBag.Title = @Resources.PersonList;
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+  @Html.ActionLink(@Resources.Reports, "Index", "Report")
+</p>
+<p>
+  @if (Roles.IsUserInRole("Admin"))
+  {
+    @Html.ActionLink(@Resources.Create, "Create")
+  }
+</p>
+
+<script type="text/javascript">
+  function clearSearchResult() {
+    $('#SearchResults').empty();
+  }
+</script>
+<div>
+@using (Ajax.BeginForm("SearchByName", new AjaxOptions { UpdateTargetId = "SearchResults", LoadingElementId = "loading", OnBegin = "clearSearchResult" }))
+{
+    <input type="text" name="personName" />
+    <input type="submit" value="Поиск" />
+}
+<img id="loading" src="@Url.Content("~/Images/preloader.gif")" style="display:none" />
+@Html.Partial("SearchByName")
+</div>
