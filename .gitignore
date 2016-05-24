@@ -1,2 +1,6 @@
 /.vs
 /*.suo
+/AddressBook/bin
+/AddressBook/obj
+/packages
+/AddressBook/App_Data
