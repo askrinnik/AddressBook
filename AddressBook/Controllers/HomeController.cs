@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
 using AddressBook.DataAccess;
@@ -97,7 +96,7 @@ namespace AddressBook.Controllers
     {
       if (ModelState.IsValid)
       {
-        _db.Entry(person).State = EntityState.Modified;
+        _db.Entry(person).State = System.Data.Entity.EntityState.Modified;
         _db.SaveChanges();
         return RedirectToAction("Index");
       }

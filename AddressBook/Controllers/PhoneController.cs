@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using AddressBook.DataAccess;
 
 namespace AddressBook.Controllers
@@ -72,7 +68,7 @@ namespace AddressBook.Controllers
       if (!ModelState.IsValid) return 
         View(phone);
 
-      db.Entry(phone).State = EntityState.Modified;
+      db.Entry(phone).State = System.Data.Entity.EntityState.Modified;
       db.SaveChanges();
       return RedirectToAction("Index", new { id = phone.PersonId });
     }
