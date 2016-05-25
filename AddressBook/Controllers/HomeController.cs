@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
-using AddressBook.DataAccess;
+using AddressBook.Core.DataAccess;
 
 namespace AddressBook.Controllers
 {

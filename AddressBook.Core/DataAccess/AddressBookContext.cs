@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Web.Mvc;
 
-namespace AddressBook.DataAccess
+namespace AddressBook.Core.DataAccess
 {
   public class AddressBookContext : DbContext
   {
@@ -27,7 +26,6 @@ namespace AddressBook.DataAccess
   {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    [HiddenInput]
     public int Id { get; set; }
 
     [Required(ErrorMessageResourceType = typeof(Resources), ErrorMessageResourceName = "Person_Name_Required")]

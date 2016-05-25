@@ -1,12 +1,11 @@
-namespace AddressBook.Migrations
+namespace AddressBook.Core.DataAccess
 {
-  using DataAccess;
   using System;
   using System.Data.Entity.Migrations;
   using System.Linq;
-  internal sealed class Configuration : DbMigrationsConfiguration<AddressBookContext>
+  public sealed class AddressBookDbMigrationsConfiguration : DbMigrationsConfiguration<AddressBookContext>
   {
-    public Configuration()
+    public AddressBookDbMigrationsConfiguration()
     {
       AutomaticMigrationsEnabled = true;
     }

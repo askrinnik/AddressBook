@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using AddressBook.DataAccess;
+using AddressBook.Core.DataAccess;
 using AddressBook.Models;
 
 namespace AddressBook.Controllers

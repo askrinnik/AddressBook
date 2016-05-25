@@ -4,7 +4,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using AddressBook.DataAccess;
+using AddressBook.Core.DataAccess;
 
 namespace AddressBook
 {
@@ -26,7 +26,7 @@ namespace AddressBook
       AuthConfig.RegisterAuth();
 
       //Database.SetInitializer(new AddressBookContextInitializer());
-      Database.SetInitializer(new MigrateDatabaseToLatestVersion<AddressBookContext, Migrations.Configuration>());
+      Database.SetInitializer(new MigrateDatabaseToLatestVersion<AddressBookContext, AddressBookDbMigrationsConfiguration>());
     }
     protected void Application_BeginRequest()
     {

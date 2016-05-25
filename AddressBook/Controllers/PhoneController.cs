@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using AddressBook.DataAccess;
+using AddressBook.Core.DataAccess;
 
 namespace AddressBook.Controllers
 {
