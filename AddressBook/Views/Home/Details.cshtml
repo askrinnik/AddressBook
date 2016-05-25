@@ -22,6 +22,10 @@
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Редактировать", "Edit", new { id=Model.Id }) |
-    @Html.ActionLink("Назад", "Index")
+  @if (Roles.IsUserInRole("Admin"))
+  {
+    @Html.ActionLink(AddressBook.Resources.Edit, "Edit", new { id = Model.Id }) 
+    <text>|</text>
+}
+  @Html.ActionLink("Назад", "Index")
 </p>

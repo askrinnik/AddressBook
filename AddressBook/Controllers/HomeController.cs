@@ -42,6 +42,7 @@ namespace AddressBook.Controllers
 
     //
     // GET: /Person/Details/5
+    [AllowAnonymous]
     public ActionResult Details(int id = 0)
     {
       Person person = _db.Persons.Find(id);

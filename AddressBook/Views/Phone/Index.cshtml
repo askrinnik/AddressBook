@@ -2,13 +2,16 @@
 @model IEnumerable<AddressBook.DataAccess.Phone>
 
 @{
-  ViewBag.Title = "Index";
+  ViewBag.Title = @Resources.Phones;
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-  @Html.ActionLink(@Resources.Create, "Create", new { id = ViewBag.PersonId })
+  @if (Roles.IsUserInRole("Admin"))
+  {
+    @Html.ActionLink(@Resources.Create, "Create", new { id = ViewBag.PersonId })
+  }
 </p>
 <table>
   <tr>
@@ -31,8 +34,12 @@
         @Html.DisplayFor(modelItem => item.Person.Name)
       </td>
       <td>
-        @Html.ActionLink(@Resources.Edit, "Edit", new { id = item.Id }) |
-            @Html.ActionLink(@Resources.Delete, "Delete", new { id = item.Id })
+        @if (Roles.IsUserInRole("Admin"))
+        {
+          @Html.ActionLink(@Resources.Edit, "Edit", new { id = item.Id })
+          <text>|</text>
+          @Html.ActionLink(@Resources.Delete, "Delete", new { id = item.Id })
+        }
       </td>
     </tr>
   }
