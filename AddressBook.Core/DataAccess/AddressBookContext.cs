@@ -12,6 +12,7 @@ namespace AddressBook.Core.DataAccess
     public AddressBookContext()
       : base("DefaultConnection")
     {
+      Configuration.ProxyCreationEnabled = false;
     }
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
