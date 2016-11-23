@@ -22,7 +22,7 @@ namespace AddressBook
             // Create the SimpleMembership database without Entity Framework migration schema
             ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
 
-        WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+        WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", true);
 
         var roles = (SimpleRoleProvider)Roles.Provider;
         var membership = (SimpleMembershipProvider)Membership.Provider;
@@ -67,8 +67,7 @@ namespace AddressBook
       OAuthWebSecurity.RegisterGoogleClient();
 
       OAuthWebSecurity.RegisterClient(
-       client: new VKontakteAuthenticationClient(
-              "3905893", "SHhIiURN8uoRdwhT05Hl"),
+       client: new VKontakteAuthenticationClient("3905893", "SHhIiURN8uoRdwhT05Hl"),
        displayName: "ВКонтакте", // надпись на кнопке
        extraData: null);
     }

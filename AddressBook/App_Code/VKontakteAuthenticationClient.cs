@@ -21,41 +21,29 @@ namespace AddressBook
       AppSecret = appSecret;
     }
 
-    string IAuthenticationClient.ProviderName
-    {
-      get { return "vkontakte"; }
-    }
+    string IAuthenticationClient.ProviderName => "vkontakte";
 
-    void IAuthenticationClient.RequestAuthentication(
-                            HttpContextBase context, Uri returnUrl)
+    void IAuthenticationClient.RequestAuthentication(HttpContextBase context, Uri returnUrl)
     {
       var appId = AppId;
       _redirectUri = context.Server.UrlEncode(returnUrl.ToString());
-      var address = String.Format(
-              "https://oauth.vk.com/authorize?client_id={0}&redirect_uri={1}&response_type=code",
-              appId, _redirectUri
-          );
+      var address = $"https://oauth.vk.com/authorize?client_id={appId}&redirect_uri={_redirectUri}&response_type=code";
 
       HttpContext.Current.Response.Redirect(address, false);
     }
 
-    AuthenticationResult IAuthenticationClient.VerifyAuthentication(
-                           HttpContextBase context)
+    AuthenticationResult IAuthenticationClient.VerifyAuthentication(HttpContextBase context)
     {
       try
       {
-        string code = context.Request["code"];
+        var code = context.Request["code"];
 
-        var address = String.Format(
-                "https://oauth.vk.com/access_token?client_id={0}&client_secret={1}&code={2}&redirect_uri={3}",
-                AppId, AppSecret, code, _redirectUri);
+        var address = $"https://oauth.vk.com/access_token?client_id={AppId}&client_secret={AppSecret}&code={code}&redirect_uri={_redirectUri}";
 
         var response = Load(address);
         var accessToken = DeserializeJson<AccessToken>(response);
 
-        address = String.Format(
-                "https://api.vk.com/method/users.get?uids={0}&fields=photo_50",
-                accessToken.user_id);
+        address = $"https://api.vk.com/method/users.get?uids={accessToken.user_id}&fields=photo_50";
 
         response = Load(address);
         var usersData = DeserializeJson<UsersData>(response);
@@ -94,12 +82,8 @@ namespace AddressBook
     {
       var request = WebRequest.Create(address) as HttpWebRequest;
       using (var response = request.GetResponse() as HttpWebResponse)
-      {
-        using (var reader = new StreamReader(response.GetResponseStream()))
-        {
-          return reader.ReadToEnd();
-        }
-      }
+      using (var reader = new StreamReader(response.GetResponseStream()))
+        return reader.ReadToEnd();
     }
 
     public static T DeserializeJson<T>(string input)

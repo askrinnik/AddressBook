@@ -3,23 +3,22 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Web;
-using System.Web.Mvc;
 
 namespace AddressBook
 {
   public static class CultureHelper
   {
-    static readonly string[] Cultures = { "ru", "en" };
+    private static readonly string[] Cultures = { "ru", "en" };
 
     private static string ParseLanguage(string lang)
     {
-      if (String.IsNullOrWhiteSpace(lang)) return Cultures[0];
+      if (string.IsNullOrWhiteSpace(lang)) return Cultures[0];
       return !Cultures.Contains(lang) ? Cultures[0] : lang;
     }
     public static void ChangeCulture()
     {
       var cultureCookie = HttpContext.Current.Request.Cookies["lang"];
-      var cultureName = cultureCookie != null ? cultureCookie.Value : null;
+      var cultureName = cultureCookie?.Value;
 
       cultureName = ParseLanguage(cultureName);
 
