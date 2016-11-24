@@ -26,7 +26,7 @@ namespace AddressBook.Core.DataAccess
     [UIHint("DatePicker")]
     public DateTime BirthDay { get; set; }
 
-    public IEnumerable<Phone> Phones { get; set; }
+    public List<Phone> Phones { get; set; } = new List<Phone>();
 
   }
 }

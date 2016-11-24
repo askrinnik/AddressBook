@@ -13,15 +13,20 @@ namespace AddressBook
   {
     public static void InitalizeWebSecurity()
     {
+      // We don't use an initializer. All adding steps will be below
       Database.SetInitializer<UsersContext>(null);
 
       try
       {
+        // Create the SimpleMembership database without Entity Framework migration schema
         using (var context = new UsersContext())
-          if (!context.Database.Exists())
-            // Create the SimpleMembership database without Entity Framework migration schema
+        {
+          var databaseExists = context.Database.Exists(); // !!!! use variable, otherwise returns false
+          if (!databaseExists)
             ((IObjectContextAdapter)context).ObjectContext.CreateDatabase();
+        }
 
+        // create tables for users and roles
         WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", true);
 
         var roles = (SimpleRoleProvider)Roles.Provider;

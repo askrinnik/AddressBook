@@ -69,6 +69,8 @@ namespace AddressBook.Controllers
         View(phone);
 
       db.Entry(phone).State = System.Data.Entity.EntityState.Modified;
+      // or db.Phones.Attach(phone);
+
       db.SaveChanges();
       return RedirectToAction("Index", new { id = phone.PersonId });
     }

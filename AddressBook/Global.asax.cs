@@ -25,8 +25,8 @@ namespace AddressBook
       AuthConfig.InitalizeWebSecurity();
       AuthConfig.RegisterAuth();
 
-      //Database.SetInitializer(new AddressBookContextInitializer());
-      Database.SetInitializer(new MigrateDatabaseToLatestVersion<AddressBookContext, AddressBookDbMigrationsConfiguration>());
+      Database.SetInitializer(new AddressBookDbIfNotExistsInitializer());
+      //Database.SetInitializer(new MigrateDatabaseToLatestVersion<AddressBookContext, AddressBookDbMigrationsConfiguration>());
     }
     protected void Application_BeginRequest()
     {
