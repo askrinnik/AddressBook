@@ -1,4 +1,56 @@
+DotNetOpenAuth.AspNet
+-------------------------
+Enables web site visitors to log into an ASP.NET web application via popular identity providers, including Google, Yahoo!, Windows Live, Facebook, LinkedIn and Twitter.
+AccountController, VKontakteAuthenticationClient
+Uses all packages DotNetOpenAuth.*
+
+EntityFramework
+-----------------
+Work with Entity framework
+
+jQuery.*
+--------------------
+JavaScript libraries
+
+knockoutjs
+-----------
+JavaScript MVVM library ??????????
+
+Microsoft.AspNet.*
+-------------
+Classes for *.chtml files (Razor), WebApi etc
+
+Microsoft.CodeDom.Providers.DotNetCompilerPlatform
+----------------------------------------------
+Dynamic web-pages compilation 
+
+Microsoft.jQuery.*
+------------------------
+some JavaScripts
+
+Microsoft.Net.Compilers
+------------------------
+Dynamic web-pages compilation tools
+
+Microsoft.Net.Http
+---------------------------
+This package includes HttpClient for sending requests over HTTP, as well as HttpRequestMessage and HttpResponseMessage for processing HTTP messages
+
+Microsoft.Web.Infrastructure
+---------------------------
+Used by ???
+
 Modernizr
 ----------
 JavaScript-библиотека, котора€ узнаЄт, что из HTML5 и CSS3 умеет браузер пользовател€. 
 https://habrahabr.ru/post/144352/
+
+Newtonsoft.Json
+-------------------
+JSON serialization
+
+WebGrease
+--------------
+WebGrease optimizes a web applicationТs static files, including CSS, JavaScript, and image files. It includes the following capabilities:
+command-line and MSTask tool. Not used now
+
