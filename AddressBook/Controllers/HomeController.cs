@@ -15,7 +15,7 @@ namespace AddressBook.Controllers
     public ActionResult ChangeCulture(string lang)
     {
       CultureHelper.ChangeLanguage(lang);
-      return Redirect(Request.UrlReferrer.AbsolutePath);
+      return Redirect(Request.UrlReferrer?.AbsolutePath);
     }
 
     //
@@ -80,11 +80,9 @@ namespace AddressBook.Controllers
     // GET: /Person/Edit/5
     public ActionResult Edit(int id = 0)
     {
-      Person person = _db.Persons.Find(id);
+      var person = _db.Persons.Find(id);
       if (person == null)
-      {
         return HttpNotFound();
-      }
       return View(person);
     }
 

@@ -1,0 +1,4 @@
+Modernizr
+----------
+JavaScript-библиотека, которая узнаёт, что из HTML5 и CSS3 умеет браузер пользователя. 
+https://habrahabr.ru/post/144352/

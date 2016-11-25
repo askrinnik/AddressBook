@@ -38,6 +38,9 @@ namespace AddressBook
                   "~/Content/themes/base/jquery.ui.datepicker.css",
                   "~/Content/themes/base/jquery.ui.progressbar.css",
                   "~/Content/themes/base/jquery.ui.theme.css"));
+
+      // switch on bundling in debug mode
+      //BundleTable.EnableOptimizations = true;
     }
   }
 }

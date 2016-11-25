@@ -17,7 +17,6 @@ namespace AddressBook.Controllers
   {
     //
     // GET: /Account/Login
-
     [AllowAnonymous]
     public ActionResult Login(string returnUrl)
     {
@@ -27,16 +26,13 @@ namespace AddressBook.Controllers
 
     //
     // POST: /Account/Login
-
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
     public ActionResult Login(LoginModel model, string returnUrl)
     {
       if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
-      {
         return RedirectToLocal(returnUrl);
-      }
 
       // If we got this far, something failed, redisplay form
       ModelState.AddModelError("", "The user name or password provided is incorrect.");
@@ -45,7 +41,6 @@ namespace AddressBook.Controllers
 
     //
     // POST: /Account/LogOff
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult LogOff()
@@ -57,7 +52,6 @@ namespace AddressBook.Controllers
 
     //
     // GET: /Account/Register
-
     [AllowAnonymous]
     public ActionResult Register()
     {
@@ -66,39 +60,36 @@ namespace AddressBook.Controllers
 
     //
     // POST: /Account/Register
-
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
     public ActionResult Register(RegisterModel model)
     {
-      if (ModelState.IsValid)
+      if (!ModelState.IsValid)
+        return View(model);  // If we got this far, something failed, redisplay form
+
+      // Attempt to register the user
+      try
       {
-        // Attempt to register the user
-        try
-        {
-          WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new {model.Address});
-          WebSecurity.Login(model.UserName, model.Password);
-          return RedirectToAction("Index", "Home");
-        }
-        catch (MembershipCreateUserException e)
-        {
-          ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
-        }
+        WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new {model.Address});
+        WebSecurity.Login(model.UserName, model.Password);
+        return RedirectToAction("Index", "Home");
+      }
+      catch (MembershipCreateUserException e)
+      {
+        ModelState.AddModelError("", ErrorCodeToString(e.StatusCode));
       }
 
-      // If we got this far, something failed, redisplay form
       return View(model);
     }
 
     //
     // POST: /Account/Disassociate
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Disassociate(string provider, string providerUserId)
     {
-      string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
+      var ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
       ManageMessageId? message = null;
 
       // Only disassociate the account if the currently logged in user is the owner
@@ -107,7 +98,7 @@ namespace AddressBook.Controllers
         // Use a transaction to prevent the user from deleting their last login credential
         using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
         {
-          bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+          var hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
           if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 0) // >1  SAV
           {
             OAuthWebSecurity.DeleteAccount(provider, providerUserId);
@@ -122,7 +113,6 @@ namespace AddressBook.Controllers
 
     //
     // GET: /Account/Manage
-
     public ActionResult Manage(ManageMessageId? message)
     {
       ViewBag.StatusMessage =
@@ -137,7 +127,6 @@ namespace AddressBook.Controllers
 
     //
     // POST: /Account/Manage
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Manage(LocalPasswordModel model)
@@ -175,10 +164,7 @@ namespace AddressBook.Controllers
         // User does not have a local password so remove any validation errors caused by a missing
         // OldPassword field
         ModelState state = ModelState["OldPassword"];
-        if (state != null)
-        {
-          state.Errors.Clear();
-        }
+        state?.Errors.Clear();
 
         if (ModelState.IsValid)
         {
@@ -250,8 +236,8 @@ namespace AddressBook.Controllers
     [ValidateAntiForgeryToken]
     public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
     {
-      string provider = null;
-      string providerUserId = null;
+      string provider;
+      string providerUserId;
 
       if (User.Identity.IsAuthenticated || !OAuthWebSecurity.TryDeserializeProviderUserId(model.ExternalLoginData, out provider, out providerUserId))
       {
@@ -308,11 +294,11 @@ namespace AddressBook.Controllers
     [ChildActionOnly]
     public ActionResult RemoveExternalLogins()
     {
-      ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
-      List<ExternalLogin> externalLogins = new List<ExternalLogin>();
-      foreach (OAuthAccount account in accounts)
+      var accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
+      var externalLogins = new List<ExternalLogin>();
+      foreach (var account in accounts)
       {
-        AuthenticationClientData clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider);
+        var clientData = OAuthWebSecurity.GetOAuthClientData(account.Provider);
 
         externalLogins.Add(new ExternalLogin
         {
@@ -330,13 +316,8 @@ namespace AddressBook.Controllers
     private ActionResult RedirectToLocal(string returnUrl)
     {
       if (Url.IsLocalUrl(returnUrl))
-      {
         return Redirect(returnUrl);
-      }
-      else
-      {
-        return RedirectToAction("Index", "Home");
-      }
+      return RedirectToAction("Index", "Home");
     }
 
     public enum ManageMessageId
@@ -354,8 +335,8 @@ namespace AddressBook.Controllers
         ReturnUrl = returnUrl;
       }
 
-      public string Provider { get; private set; }
-      public string ReturnUrl { get; private set; }
+      public string Provider { get; }
+      public string ReturnUrl { get; }
 
       public override void ExecuteResult(ControllerContext context)
       {

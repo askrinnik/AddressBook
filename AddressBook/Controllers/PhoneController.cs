@@ -1,5 +1,4 @@
-﻿using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using AddressBook.Core.DataAccess;
@@ -8,21 +7,19 @@ namespace AddressBook.Controllers
 {
   public class PhoneController : Controller
   {
-    private AddressBookContext db = new AddressBookContext();
+    private readonly AddressBookContext _db = new AddressBookContext();
 
     //
     // GET: /Phone/
-
     public ActionResult Index(int id)
     {
       ViewBag.PersonId = id;
-      var phones = db.Phones.Include(p => p.Person).Where(p => p.PersonId == id);
+      var phones = _db.Phones.Include(p => p.Person).Where(p => p.PersonId == id);
       return View(phones.ToList());
     }
 
     //
     // GET: /Phone/Create
-
     public ActionResult Create(int id)
     {
       var phone = new Phone { PersonId = id };
@@ -31,15 +28,14 @@ namespace AddressBook.Controllers
 
     //
     // POST: /Phone/Create
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Create(Phone phone)
     {
       if (ModelState.IsValid)
       {
-        db.Phones.Add(phone);
-        db.SaveChanges();
+        _db.Phones.Add(phone);
+        _db.SaveChanges();
         return RedirectToAction("Index", new {id = phone.PersonId});
       }
 
@@ -48,10 +44,9 @@ namespace AddressBook.Controllers
 
     //
     // GET: /Phone/Edit/5
-
     public ActionResult Edit(int id)
     {
-      var phone = db.Phones.Find(id);
+      var phone = _db.Phones.Find(id);
       if (phone == null)
         return HttpNotFound();
       
@@ -60,7 +55,6 @@ namespace AddressBook.Controllers
 
     //
     // POST: /Phone/Edit/5
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Edit(Phone phone)
@@ -68,10 +62,10 @@ namespace AddressBook.Controllers
       if (!ModelState.IsValid) return 
         View(phone);
 
-      db.Entry(phone).State = System.Data.Entity.EntityState.Modified;
+      _db.Entry(phone).State = EntityState.Modified;
       // or db.Phones.Attach(phone);
 
-      db.SaveChanges();
+      _db.SaveChanges();
       return RedirectToAction("Index", new { id = phone.PersonId });
     }
 
@@ -80,19 +74,19 @@ namespace AddressBook.Controllers
 
     public ActionResult Delete(int id = 0)
     {
-      var phone = db.Phones.Find(id);
+      var phone = _db.Phones.Find(id);
       if (phone == null)
         return HttpNotFound();
 
-      db.Phones.Remove(phone);
-      db.SaveChanges();
+      _db.Phones.Remove(phone);
+      _db.SaveChanges();
       return RedirectToAction("Index", new { id = phone.PersonId });
     }
 
 
     protected override void Dispose(bool disposing)
     {
-      db.Dispose();
+      _db.Dispose();
       base.Dispose(disposing);
     }
   }
