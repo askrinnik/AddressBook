@@ -63,7 +63,6 @@ namespace AddressBook.Controllers
         View(phone);
 
       _db.Entry(phone).State = EntityState.Modified;
-      // or db.Phones.Attach(phone);
 
       _db.SaveChanges();
       return RedirectToAction("Index", new { id = phone.PersonId });

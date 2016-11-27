@@ -8,8 +8,12 @@ namespace AddressBook.Controllers
   [Authorize]
   public class HomeController : Controller
   {
-    private readonly AddressBookRepository _repository = new AddressBookRepository(new AddressBookContext());
+    private readonly IAddressBookRepository _repository;// = new AddressBookRepository(new AddressBookContext());
 
+    public HomeController(IAddressBookRepository repository)
+    {
+      _repository = repository;
+    }
 
     [AllowAnonymous]
     public ActionResult ChangeCulture(string lang)

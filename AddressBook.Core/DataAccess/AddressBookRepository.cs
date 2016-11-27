@@ -37,8 +37,7 @@ namespace AddressBook.Core.DataAccess
     }
     public void EditPerson(Person person)
     {
-      //_db.Entry(person).State = EntityState.Modified;
-      _db.Persons.Attach(person);
+      _db.Entry(person).State = EntityState.Modified;
       _db.SaveChanges();
     }
     public void DeletePerson(int id)
