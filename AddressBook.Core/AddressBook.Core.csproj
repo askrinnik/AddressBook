@@ -52,6 +52,7 @@
     <Compile Include="DataAccess\AddressBookContext.cs" />
     <Compile Include="DataAccess\AddressBookRepository.cs" />
     <Compile Include="DataAccess\DatabaseInitializers.cs" />
+    <Compile Include="DataAccess\IAddressBookRepository.cs" />
     <Compile Include="DataAccess\Person.cs" />
     <Compile Include="DataAccess\Phone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

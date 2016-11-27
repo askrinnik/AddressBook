@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace AddressBook.Core.DataAccess
 {
-  public class AddressBookRepository
+  public class AddressBookRepository : IAddressBookRepository
   {
     private readonly AddressBookContext _db;
 
@@ -37,7 +37,8 @@ namespace AddressBook.Core.DataAccess
     }
     public void EditPerson(Person person)
     {
-      _db.Entry(person).State = EntityState.Modified;
+      //_db.Entry(person).State = EntityState.Modified;
+      _db.Persons.Attach(person);
       _db.SaveChanges();
     }
     public void DeletePerson(int id)
@@ -45,7 +46,7 @@ namespace AddressBook.Core.DataAccess
       var person = _db.Persons.Find(id);
       DeletePerson(person);
     }
-    private void DeletePerson(Person person)
+    public void DeletePerson(Person person)
     {
       _db.Persons.Remove(person);
       _db.SaveChanges();
