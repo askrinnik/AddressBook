@@ -8,7 +8,7 @@ namespace AddressBook.Controllers
   [Authorize]
   public class HomeController : Controller
   {
-    private readonly AddressBookContext _db = new AddressBookContext();
+    private readonly AddressBookRepository _repository = new AddressBookRepository(new AddressBookContext());
 
 
     [AllowAnonymous]
@@ -18,41 +18,32 @@ namespace AddressBook.Controllers
       return Redirect(Request.UrlReferrer?.AbsolutePath);
     }
 
-    //
     // GET: /Person/
     [AllowAnonymous]
     public ActionResult Index()
     {
-      return View(_db.Persons.ToList());
+      return View(_repository.GetPersons());
     }
 
-    //
     // GET: /Person/
     [AllowAnonymous]
     public ActionResult SearchByName(string personName)
     {
-      IQueryable<Person> persons = _db.Persons;
-      if(!string.IsNullOrWhiteSpace(personName))
-        persons = persons.Where(p => (p.Name + " " + p.SurName).Contains(personName));
 
       Thread.Sleep(1000);
-      return PartialView(persons.ToList());
+      return PartialView(_repository.GetPersons(personName));
     }
 
-    //
     // GET: /Person/Details/5
     [AllowAnonymous]
     public ActionResult Details(int id = 0)
     {
-      Person person = _db.Persons.Find(id);
+      var person = _repository.GetPerson(id);
       if (person == null)
-      {
         return HttpNotFound();
-      }
       return View(person);
     }
 
-    //
     // GET: /Person/Create
     [Authorize(Roles = "Admin")]
     public ActionResult Create()
@@ -60,7 +51,6 @@ namespace AddressBook.Controllers
       return View();
     }
 
-    //
     // POST: /Person/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -68,44 +58,38 @@ namespace AddressBook.Controllers
     {
       if (ModelState.IsValid)
       {
-        _db.Persons.Add(person);
-        _db.SaveChanges();
+        _repository.CreatePerson(person);
         return RedirectToAction("Index");
       }
 
       return View(person);
     }
 
-    //
     // GET: /Person/Edit/5
     public ActionResult Edit(int id = 0)
     {
-      var person = _db.Persons.Find(id);
+      var person = _repository.GetPerson(id);
       if (person == null)
         return HttpNotFound();
       return View(person);
     }
 
-    //
     // POST: /Person/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult Edit(Person person)
     {
-      if (ModelState.IsValid)
-      {
-        _db.Entry(person).State = System.Data.Entity.EntityState.Modified;
-        _db.SaveChanges();
-        return RedirectToAction("Index");
-      }
-      return View(person);
+      if (!ModelState.IsValid)
+        return View(person);
+
+      _repository.EditPerson(person);
+      return RedirectToAction("Index");
     }
 
-    //
     // GET: /Person/Delete/5
     public ActionResult Delete(int id = 0)
     {
-      var person = _db.Persons.Find(id);
+      var person = _repository.GetPerson(id);
       if (person == null)
         return HttpNotFound();
       
@@ -118,16 +102,8 @@ namespace AddressBook.Controllers
     [ValidateAntiForgeryToken]
     public ActionResult DeleteConfirmed(int id)
     {
-      var person = _db.Persons.Find(id);
-      _db.Persons.Remove(person);
-      _db.SaveChanges();
+      _repository.DeletePerson(id);
       return RedirectToAction("Index");
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-      _db.Dispose();
-      base.Dispose(disposing);
     }
   }
 }
