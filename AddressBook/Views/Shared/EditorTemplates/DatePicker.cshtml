@@ -1,6 +1,6 @@
 ﻿@Html.TextBox(string.Empty, ViewData.TemplateInfo.FormattedModelValue)
 <script type="text/javascript">
    $(function () {
-     $('#@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty)').datepicker();
+    appService.addDatePicker("@ViewData.TemplateInfo.GetFullHtmlFieldName(string.Empty)");
    });
  </script>
