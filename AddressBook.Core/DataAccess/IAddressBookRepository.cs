@@ -1,4 +1,7 @@
-﻿namespace AddressBook.Core.DataAccess
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace AddressBook.Core.DataAccess
 {
   public interface IAddressBookRepository
   {
@@ -9,5 +12,10 @@
     void EditPerson(Person person);
     void DeletePerson(int id);
     void DeletePerson(Person person);
+    Task<IEnumerable<Phone>> GetPersonPhones(int personId);
+    void CreatePhone(Phone phone);
+    Phone GetPhone(int id);
+    void EditPhone(Phone phone);
+    void DeletePhone(Phone phone);
   }
 }

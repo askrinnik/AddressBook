@@ -1,5 +1,4 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using AddressBook.Core.DataAccess;
 
@@ -7,15 +6,20 @@ namespace AddressBook.Controllers
 {
   public class PhoneController : Controller
   {
-    private readonly AddressBookContext _db = new AddressBookContext();
+    private readonly IAddressBookRepository _repository;// = new AddressBookRepository(new AddressBookContext());
+
+    public PhoneController(IAddressBookRepository repository)
+    {
+      _repository = repository;
+    }
 
     //
     // GET: /Phone/
-    public ActionResult Index(int id)
+    public async Task<ActionResult> Index(int id)
     {
       ViewBag.PersonId = id;
-      var phones = _db.Phones.Include(p => p.Person).Where(p => p.PersonId == id);
-      return View(phones.ToList());
+      var phones = await _repository.GetPersonPhones(id);
+      return View(phones);
     }
 
     //
@@ -34,8 +38,7 @@ namespace AddressBook.Controllers
     {
       if (ModelState.IsValid)
       {
-        _db.Phones.Add(phone);
-        _db.SaveChanges();
+        _repository.CreatePhone(phone);
         return RedirectToAction("Index", new {id = phone.PersonId});
       }
 
@@ -46,7 +49,7 @@ namespace AddressBook.Controllers
     // GET: /Phone/Edit/5
     public ActionResult Edit(int id)
     {
-      var phone = _db.Phones.Find(id);
+      var phone = _repository.GetPhone(id);
       if (phone == null)
         return HttpNotFound();
       
@@ -62,9 +65,7 @@ namespace AddressBook.Controllers
       if (!ModelState.IsValid) return 
         View(phone);
 
-      _db.Entry(phone).State = EntityState.Modified;
-
-      _db.SaveChanges();
+      _repository.EditPhone(phone);
       return RedirectToAction("Index", new { id = phone.PersonId });
     }
 
@@ -73,20 +74,14 @@ namespace AddressBook.Controllers
 
     public ActionResult Delete(int id = 0)
     {
-      var phone = _db.Phones.Find(id);
+      var phone = _repository.GetPhone(id);
       if (phone == null)
         return HttpNotFound();
 
-      _db.Phones.Remove(phone);
-      _db.SaveChanges();
+      _repository.DeletePhone(phone);
+
       return RedirectToAction("Index", new { id = phone.PersonId });
     }
 
-
-    protected override void Dispose(bool disposing)
-    {
-      _db.Dispose();
-      base.Dispose(disposing);
-    }
   }
 }

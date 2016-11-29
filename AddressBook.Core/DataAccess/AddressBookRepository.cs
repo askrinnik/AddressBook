@@ -1,5 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace AddressBook.Core.DataAccess
 {
@@ -48,6 +50,34 @@ namespace AddressBook.Core.DataAccess
     public void DeletePerson(Person person)
     {
       _db.Persons.Remove(person);
+      _db.SaveChanges();
+    }
+
+    public async Task<IEnumerable<Phone>>  GetPersonPhones(int personId)
+    {
+      return await _db.Phones.Include(p => p.Person).Where(p => p.PersonId == personId).AsNoTracking().ToArrayAsync();
+    }
+
+    public void CreatePhone(Phone phone)
+    {
+      _db.Phones.Add(phone);
+      _db.SaveChanges();
+    }
+
+    public Phone GetPhone(int id)
+    {
+      return _db.Phones.Find(id);
+    }
+
+    public void EditPhone(Phone phone)
+    {
+      _db.Entry(phone).State = EntityState.Modified;
+      _db.SaveChanges();
+    }
+
+    public void DeletePhone(Phone phone)
+    {
+      _db.Phones.Remove(phone);
       _db.SaveChanges();
     }
   }
