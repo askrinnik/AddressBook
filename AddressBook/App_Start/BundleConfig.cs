@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace AddressBook
 {
@@ -19,7 +18,7 @@ namespace AddressBook
                   "~/Scripts/jquery.validate*"));
 
       bundles.Add(new ScriptBundle("~/bundles/myScripts").Include(
-                  "~/Scripts/_appServices.js"));
+                  "~/Scripts/appService.js"));
 
       // Use the development version of Modernizr to develop with and learn from. Then, when you're
       // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
