@@ -2,7 +2,7 @@
 using AddressBook.Core.DataAccess;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AddressBook
+namespace AddressBook.Ang
 {
   public class DefaultDependencyResolver : DependencyResolverBase, IDependencyResolver
   {
@@ -20,7 +20,7 @@ namespace AddressBook
 
     public IDependencyScope BeginScope()
     {
-     return new DefaultDependencyResolver();
+      return new DefaultDependencyResolver();
     }
   }
 

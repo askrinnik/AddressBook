@@ -6,3 +6,6 @@
 /AddressBook/App_Data
 /AddressBook.Core/bin
 /AddressBook.Core/obj
+/AddressBook.Ang/bin
+/AddressBook.Ang/obj
+/AddressBook/Scripts/appService.js

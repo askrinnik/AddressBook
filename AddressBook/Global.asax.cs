@@ -28,9 +28,8 @@ namespace AddressBook
       Database.SetInitializer(new AddressBookDbIfNotExistsInitializer());
       //Database.SetInitializer(new MigrateDatabaseToLatestVersion<AddressBookContext, AddressBookDbMigrationsConfiguration>());
 
-      //GlobalConfiguration.Configuration.DependencyResolver = aa;
-      DependencyResolver.SetResolver(new DefaultDependencyResolver());
-
+      GlobalConfiguration.Configuration.DependencyResolver = new DefaultDependencyResolver(); // for ApiControllers
+      DependencyResolver.SetResolver(new DefaultDependencyResolver()); // For MVC controllers
     }
     protected void Application_BeginRequest()
     {
