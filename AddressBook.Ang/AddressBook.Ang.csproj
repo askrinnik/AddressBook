@@ -215,6 +215,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\spa\app.js" />
+    <Content Include="Scripts\spa\Person\module.js" />
     <Content Include="Scripts\spa\Person\PersonController.js" />
     <Content Include="Scripts\spa\Person\PersonService.js" />
     <Content Include="Scripts\spa\Person\Persons.tpl.html" />
