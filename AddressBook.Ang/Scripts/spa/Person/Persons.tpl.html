@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Список людей</title>
+	<meta charset="utf-8" />
+  <script type="text/javascript" src="../../angular.js"></script>
+  <script type="text/javascript" src="../../angular-resource.js"></script>
+  <script type="text/javascript" src="../app.js"></script>
+  <script type="text/javascript" src="module.js"></script>
+  <script type="text/javascript" src="PersonController.js"></script>
+  <script type="text/javascript" src="PersonService.js"></script>
+</head>
+<body ng-app="AddressBook">
+  <h2>Список людей</h2>
+
+  <p>
+    <a href="/Report">Отчеты</a>
+  </p>
+  <p>
+  </p>
+
+<div ng-controller="PersonController">
+  <form action="/Home/SearchByName" data-ajax="true" data-ajax-begin="appService.clearSearchResult()" data-ajax-loading="#loading" data-ajax-mode="replace" data-ajax-update="#SearchResults" id="form0" method="post">
+    <input type="text" name="personName" />
+    <input type="submit" value="Поиск" />
+  </form>
+  <img id="loading" src="/Images/preloader.gif" style="display:none" />
+  <div id="SearchResults">
+    <table>
+      <tr>
+        <th>
+          Имя
+        </th>
+        <th>
+          Фамилия
+        </th>
+        <th>
+          Дата рождения
+        </th>
+        <th></th>
+      </tr>
+
+      <tr data-ng-repeat="person in persons">
+        <td>{{person.Name}}</td>
+        <td>{{person.SurName}}</td>
+        <td>{{person.BirthDay}}</td>
+        <td>
+          <a href="/Home/Details/1">Детали</a> |
+          <a href="/Phone/Index/1">Телефоны</a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>
