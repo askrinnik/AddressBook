@@ -2,18 +2,6 @@
   "use strict";
 
   // from https://gist.github.com/scottmcarthur/9005953
-
-  export interface IPerson extends ng.resource.IResource<IPerson> {
-    name: string;
-    surName: string;
-    birthDay: Date;
-//    $update(): ng.IPromise<IPerson>;
-  }
-
-  export interface IPersonResource extends ng.resource.IResourceClass<IPerson> {
-//    update(person): IPerson;
-  }
-
   angular.module("AddressBook").factory("PersonService", [ "$resource", ($resource: ng.resource.IResourceService): IPersonResource => {
 
         // Define your custom actions here as IActionDescriptor
