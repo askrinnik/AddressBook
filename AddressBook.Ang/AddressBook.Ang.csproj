@@ -235,6 +235,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\CustomExceptionHandlers.cs" />
     <Compile Include="App_Start\DefaultDependencyResolver.cs" />
     <Compile Include="App_Start\DependencyResolverBase.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -269,7 +270,7 @@
     <TypeScriptCompile Include="Scripts\spa\App.ts" />
     <TypeScriptCompile Include="Scripts\spa\IPerson.ts" />
     <TypeScriptCompile Include="Scripts\spa\IPersonResource.ts" />
-    <TypeScriptCompile Include="Scripts\spa\PersonController.ts" />
+    <TypeScriptCompile Include="Scripts\spa\PersonListController.ts" />
     <TypeScriptCompile Include="Scripts\spa\PersonService.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-animate.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\angularjs\angular-component-router.d.ts" />
