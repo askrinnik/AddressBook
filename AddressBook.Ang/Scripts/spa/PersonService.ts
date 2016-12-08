@@ -4,16 +4,12 @@
   // from https://gist.github.com/scottmcarthur/9005953
   angular.module("AddressBook").factory("PersonService", [ "$resource", ($resource: ng.resource.IResourceService): IPersonResource => {
 
-        // Define your custom actions here as IActionDescriptor
-        //var updateAction: ng.resource.IActionDescriptor = {
-        //  method: "PUT",
-        //  isArray: false
-        //};
+    // Define your custom actions here as IActionDescriptor
 
-        // Return the resource, include your custom actions
+    // Return the resource, include your custom actions
         return $resource("/api/person/:id", null,
         {
-          //update: updateAction
+          getByName: { method: "GET", url: "/api/person/GetByName/:personName", isArray:true}
         }) as IPersonResource;
 
   }]);

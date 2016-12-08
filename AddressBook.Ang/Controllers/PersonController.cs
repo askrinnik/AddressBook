@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Web.Http;
 using AddressBook.Core.DataAccess;
 
@@ -14,9 +15,18 @@ namespace AddressBook.Ang.Controllers
     }
 
     // GET: api/Person
-    public IEnumerable<Person> Get()
+    public IEnumerable<Person> GetAll()
     {
       return _repository.GetPersons();
+    }
+
+    // GET: api/Person/GetByName/:personName
+    [HttpGet]
+    [Route("api/Person/GetByName/{personName}")]
+    public IEnumerable<Person> GetByName(string personName)
+    {
+      Thread.Sleep(1000);
+      return _repository.GetPersons(personName);
     }
 
     // GET: api/Person/5
@@ -26,12 +36,12 @@ namespace AddressBook.Ang.Controllers
     }
 
     // POST: api/Person
-    public void Post([FromBody] string value)
+    public void Post([FromBody] Person person)
     {
     }
 
     // PUT: api/Person/5
-    public void Put(int id, [FromBody] string value)
+    public void Put(int id, [FromBody] Person person)
     {
     }
 
