@@ -1,20 +1,9 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-  <title>Список людей</title>
-	<meta charset="utf-8" />
-  <script type="text/javascript" src="/Scripts/angular.js"></script>
-  <script type="text/javascript" src="/Scripts/angular-resource.js"></script>
-  <script type="text/javascript" src="/Scripts/spa.js"></script>
-</head>
-<body ng-app="AddressBook">
-  <h2>Список людей</h2>
+﻿<h2>Список людей</h2>
 
-  <p>
-    <a href="/Report">Отчеты</a>
-  </p>
-  <p>
-  </p>
+<p>
+  <a href="/Report">Отчеты</a>
+</p>
+<p></p>
 
 <div ng-controller="PersonListController">
   <input type="text" name="personName" data-ng-model="vm.searchText" />
@@ -23,15 +12,9 @@
   <div id="SearchResults" data-ng-show="!vm.isShowProgress">
     <table>
       <tr>
-        <th>
-          Имя
-        </th>
-        <th>
-          Фамилия
-        </th>
-        <th>
-          Дата рождения
-        </th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Дата рождения</th>
         <th></th>
       </tr>
       <tr data-ng-repeat="person in vm.persons">
@@ -46,6 +29,3 @@
     </table>
   </div>
 </div>
-
-</body>
-</html>

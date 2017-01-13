@@ -5,23 +5,25 @@ module AddressBookApp {
 
   angular.module("AddressBook", [
     //--vendors
-//    "ui.router", // $stateProvider
+    "ui.router", // $stateProvider
     "ngResource" // $resource
     //--my dependences
-  ])/*.config([
-    "$stateProvider", function ($stateProvider) {
-      $stateProvider
-        .state("userInfo",
-        {
-          url: "/userInfo",
-          views: {
-            "": {
-              templateUrl: "src/scripts/spa/userProfile/templates/userInfo.html",
-              controller: "UserInfoCtrl",
-              controllerAs: "vm"
+  ])
+    .config(["$urlRouterProvider", $urlRouterProvider => { $urlRouterProvider.otherwise("/persons"); }])
+    .config([
+    "$stateProvider", $stateProvider => {
+        $stateProvider
+          .state("persons",
+          {
+            url: "/persons",
+            views: {
+              "": {
+                templateUrl: "scripts/spa/persons.tpl.html",
+                controller: "PersonListController",
+                controllerAs: "vm"
+              }
             }
-          }
-        });
-    }
-  ])*/;
+          });
+      }
+  ]);
 }

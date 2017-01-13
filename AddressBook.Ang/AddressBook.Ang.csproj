@@ -210,6 +210,7 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Images\preloader.gif" />
+    <Content Include="Index.html" />
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular-resource.js" />
     <Content Include="Scripts\angular-resource.min.js" />
