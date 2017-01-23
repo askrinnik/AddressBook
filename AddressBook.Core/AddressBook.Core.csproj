@@ -55,6 +55,7 @@
     <Compile Include="DataAccess\IAddressBookRepository.cs" />
     <Compile Include="DataAccess\Person.cs" />
     <Compile Include="DataAccess\Phone.cs" />
+    <Compile Include="DataAccess\ReportModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>

@@ -18,12 +18,32 @@ module AddressBookApp {
             url: "/persons",
             views: {
               "": {
-                templateUrl: "scripts/spa/persons.tpl.html",
+                templateUrl: "scripts/spa/Templates/persons.tpl.html",
                 controller: "PersonListController",
+              }
+            }
+          })
+          .state("reports",
+          {
+            url: "/reports",
+            views: {
+              "": {
+                templateUrl: "scripts/spa/Templates/reports.tpl.html"
+              }
+            }
+          })
+          .state("phoneList",
+          {
+            url: "/phoneList",
+            views: {
+              "": {
+                templateUrl: "scripts/spa/Templates/PhoneListReport.tpl.html",
+                controller: "ReportController",
                 controllerAs: "vm"
               }
             }
-          });
+          })
+          ;
       }
   ]);
 }

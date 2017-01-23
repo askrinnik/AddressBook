@@ -80,5 +80,35 @@ namespace AddressBook.Core.DataAccess
       _db.Phones.Remove(phone);
       _db.SaveChanges();
     }
+
+    public IQueryable<PhoneListModel> GetPhoneList()
+    {
+      var list = from person in _db.Persons
+                 join phone in _db.Phones on person.Id equals phone.PersonId
+                 select
+                 new PhoneListModel
+                 {
+                   PersonId = person.Id,
+                   PersonName = person.Name + " " + person.SurName,
+                   PhoneId = phone.Id,
+                   PersonPhone = phone.PhoneNumber
+                 };
+      return list;
+    }
+
+    public IQueryable<PhoneCount> GetPhoneCount()
+    {
+      var phoneCounts =
+        from person in _db.Persons
+        select
+        new PhoneCount
+        {
+          PersonId = person.Id,
+          PersonName = person.Name + " " + person.SurName,
+          Phones = _db.Phones.Count(p => p.PersonId == person.Id)
+        };
+      return phoneCounts;
+    }
+
   }
 }

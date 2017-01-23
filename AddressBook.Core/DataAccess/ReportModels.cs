@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AddressBook.Models
+namespace AddressBook.Core.DataAccess
 {
-  public class PhoneList
+  public class PhoneListModel
   {
     public int PersonId { get; set; }
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AddressBook.Core.DataAccess
@@ -17,5 +18,7 @@ namespace AddressBook.Core.DataAccess
     Phone GetPhone(int id);
     void EditPhone(Phone phone);
     void DeletePhone(Phone phone);
+    IQueryable<PhoneListModel> GetPhoneList();
+    IQueryable<PhoneCount> GetPhoneCount();
   }
 }

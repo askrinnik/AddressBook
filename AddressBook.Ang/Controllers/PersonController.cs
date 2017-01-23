@@ -49,5 +49,14 @@ namespace AddressBook.Ang.Controllers
     public void Delete(int id)
     {
     }
+
+    // GET: api/Person/GetByName/:personName
+    [HttpGet]
+    [Route("api/Person/getPhoneList")]
+    public IEnumerable<PhoneListModel> GetPhoneList()
+    {
+      return _repository.GetPhoneList();
+    }
+
   }
 }
