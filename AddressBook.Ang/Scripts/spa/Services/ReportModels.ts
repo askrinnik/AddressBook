@@ -5,4 +5,10 @@
     PhoneId: number;
     PersonPhone: string;
   }
+  export interface IPhoneCount extends ng.resource.IResource<IPhoneCount> {
+    PersonId: number;
+    PersonName: string;
+    Phones: number;
+  }
+
 }

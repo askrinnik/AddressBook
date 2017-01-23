@@ -10,9 +10,15 @@
       url: "/api/person/getPhoneList",
       isArray: true
     };
+    var getPhoneCount: ng.resource.IActionDescriptor = {
+      method: "GET",
+      url: "/api/person/getPhoneCount",
+      isArray: true
+    };
 
     const actions: ng.resource.IActionHash = {
-      getPhoneList: getPhoneList
+      getPhoneList: getPhoneList,
+      getPhoneCount: getPhoneCount
     };
 
     // Return the resource, include your custom actions

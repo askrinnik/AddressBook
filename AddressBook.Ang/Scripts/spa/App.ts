@@ -19,8 +19,9 @@ module AddressBookApp {
             views: {
               "": {
                 templateUrl: "scripts/spa/Templates/persons.tpl.html",
-                controller: "PersonListController",
-              }
+                controller: "PersonListController"
+                // controllerAs: "vm" is not used for example how to use scope
+             }
             }
           })
           .state("reports",
@@ -38,6 +39,17 @@ module AddressBookApp {
             views: {
               "": {
                 templateUrl: "scripts/spa/Templates/PhoneListReport.tpl.html",
+                controller: "ReportController",
+                controllerAs: "vm"
+              }
+            }
+          })
+          .state("phoneCount",
+          {
+            url: "/phoneCount",
+            views: {
+              "": {
+                templateUrl: "scripts/spa/Templates/PhoneCountReport.tpl.html",
                 controller: "ReportController",
                 controllerAs: "vm"
               }

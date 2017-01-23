@@ -50,12 +50,18 @@ namespace AddressBook.Ang.Controllers
     {
     }
 
-    // GET: api/Person/GetByName/:personName
     [HttpGet]
     [Route("api/Person/getPhoneList")]
     public IEnumerable<PhoneListModel> GetPhoneList()
     {
       return _repository.GetPhoneList();
+    }
+
+    [HttpGet]
+    [Route("api/Person/getPhoneCount")]
+    public IEnumerable<PhoneCountModel> GetPhoneCount()
+    {
+      return _repository.GetPhoneCount();
     }
 
   }

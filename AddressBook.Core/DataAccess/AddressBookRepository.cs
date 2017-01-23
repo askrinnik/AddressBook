@@ -96,12 +96,12 @@ namespace AddressBook.Core.DataAccess
       return list;
     }
 
-    public IQueryable<PhoneCount> GetPhoneCount()
+    public IQueryable<PhoneCountModel> GetPhoneCount()
     {
       var phoneCounts =
         from person in _db.Persons
         select
-        new PhoneCount
+        new PhoneCountModel
         {
           PersonId = person.Id,
           PersonName = person.Name + " " + person.SurName,

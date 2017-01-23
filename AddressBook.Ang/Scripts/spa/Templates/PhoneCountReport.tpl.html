@@ -1,0 +1,16 @@
+﻿<h2>Список людей с телефонами</h2>
+
+<table>
+  <tr>
+    <th>Фамилия и имя</th>
+    <th>Телефоны</th>
+  </tr>
+  <tr ng-repeat="item in vm.phoneCount">
+    <td>
+      <a href="" ng-click="editPerson(item.PersonId)">{{item.PersonName}}</a>
+    </td>
+    <td>
+      {{item.Phones}}
+    </td>
+  </tr>
+</table>

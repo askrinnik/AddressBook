@@ -19,6 +19,6 @@ namespace AddressBook.Core.DataAccess
     void EditPhone(Phone phone);
     void DeletePhone(Phone phone);
     IQueryable<PhoneListModel> GetPhoneList();
-    IQueryable<PhoneCount> GetPhoneCount();
+    IQueryable<PhoneCountModel> GetPhoneCount();
   }
 }
