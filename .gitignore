@@ -1,4 +1,3 @@
-/.vs
 /*.suo
 /AddressBook/bin
 /AddressBook/obj
@@ -11,3 +10,4 @@
 /AddressBook/Scripts/appService.js
 /AddressBook.Ang/Scripts/spa.js
 /AddressBook.Ang/Scripts/spa.js.map
+/.vs/AddressBook/v14/.suo
