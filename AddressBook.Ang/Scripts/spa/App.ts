@@ -55,6 +55,25 @@ module AddressBookApp {
               }
             }
           })
+          .state("viewPerson",
+          {
+            url: "/viewPerson/:userId",
+            views: {
+              "": {
+                templateUrl: "scripts/spa/Templates/ViewPerson.tpl.html",
+                controller: "ViewPersonController",
+                controllerAs: "vm"
+              }
+            },
+            resolve: {
+              person: [
+                "$stateParams", "PersonService",
+                (stateParams, personService: IPersonResource) => personService.get({ id: stateParams.userId })
+                  .$promise.then(data => data)
+              ]
+            }
+
+          })
           ;
       }
   ]);

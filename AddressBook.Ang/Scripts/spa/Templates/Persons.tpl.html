@@ -5,7 +5,7 @@
 </p>
 <p></p>
 
-<div ng-controller="PersonListController">
+<div>
   <input type="text" name="personName" data-ng-model="vm.searchText" />
   <button type="button" ng-click="vm.getByName()">Поиск</button><br/>
   <img id="loading" src="/Images/preloader.gif" data-ng-show="vm.isShowProgress" alt="Loading..."/>
@@ -22,7 +22,7 @@
         <td>{{person.SurName}}</td>
         <td>{{person.BirthDay}}</td>
         <td>
-          <a href="/Home/Details/1">Детали</a> |
+          <a ui-sref="viewPerson({userId: person.Id})">Детали</a>
           <a href="/Phone/Index/1">Телефоны</a>
         </td>
       </tr>

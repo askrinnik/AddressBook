@@ -30,9 +30,11 @@ namespace AddressBook.Ang.Controllers
     }
 
     // GET: api/Person/5
-    public string Get(int id)
+    [HttpGet]
+    [Route("api/Person/{id}")]
+    public Person Get(int id)
     {
-      return "value";
+      return _repository.GetPerson(id);
     }
 
     // POST: api/Person

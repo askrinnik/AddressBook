@@ -219,6 +219,7 @@
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Scripts\spa.js" />
+    <Content Include="Scripts\spa\Templates\ViewPerson.tpl.html" />
     <Content Include="Scripts\spa\Templates\PhoneCountReport.tpl.html" />
     <Content Include="Scripts\spa\Templates\PhoneListReport.tpl.html" />
     <Content Include="Scripts\spa\Templates\Reports.tpl.html" />
@@ -259,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\spa\App.ts" />
+    <TypeScriptCompile Include="Scripts\spa\Controllers\ViewPersonController.ts" />
     <TypeScriptCompile Include="Scripts\spa\Services\ReportModels.ts" />
     <TypeScriptCompile Include="Scripts\spa\Services\IPerson.ts" />
     <TypeScriptCompile Include="Scripts\spa\Services\IReportResource.ts" />
