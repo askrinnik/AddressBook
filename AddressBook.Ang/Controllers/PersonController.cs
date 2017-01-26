@@ -15,6 +15,8 @@ namespace AddressBook.Ang.Controllers
     }
 
     // GET: api/Person
+    [HttpGet]
+    [Route("api/Person")]
     public IEnumerable<Person> GetAll()
     {
       return _repository.GetPersons();
@@ -38,18 +40,34 @@ namespace AddressBook.Ang.Controllers
     }
 
     // POST: api/Person
+    [HttpPost]
+    [Route("api/Person")]
     public void Post([FromBody] Person person)
     {
+      // $resource.$update() doesn't work  in angular
+      // so, we use $save() and check primary key
+      if (person.Id > 0)
+        _repository.EditPerson(person);
+      else
+        _repository.CreatePerson(person);
     }
 
     // PUT: api/Person/5
+    [HttpPut]
+    [Route("api/Person/{id}")]
     public void Put(int id, [FromBody] Person person)
     {
+      // not used
+      // $resource.$update() doesn't work  in angular
+      _repository.EditPerson(person);
     }
 
     // DELETE: api/Person/5
+    [HttpDelete]
+    [Route("api/Person/{id}")]
     public void Delete(int id)
     {
+      _repository.DeletePerson(id);
     }
 
     [HttpGet]

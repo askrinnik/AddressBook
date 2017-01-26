@@ -68,8 +68,25 @@ module AddressBookApp {
             resolve: {
               person: [
                 "$stateParams", "PersonService",
-                (stateParams, personService: IPersonResource) => personService.get({ id: stateParams.userId })
-                  .$promise.then(data => data)
+                (stateParams, personService: IPersonResource) => personService.get({ id: stateParams.userId }).$promise.then(data => data)
+              ]
+            }
+
+          })
+          .state("editPerson",
+          {
+            url: "/editPerson/:userId",
+            views: {
+              "": {
+                templateUrl: "scripts/spa/Templates/EditPerson.tpl.html",
+                controller: "EditPersonController",
+                controllerAs: "vm"
+              }
+            },
+            resolve: {
+              person: [
+                "$stateParams", "PersonService",
+                (stateParams, personService: IPersonResource) => personService.get({ id: stateParams.userId }).$promise.then(data => data)
               ]
             }
 

@@ -1,0 +1,34 @@
+﻿<form data-ng-submit="vm.updateUser(vm.person)" name="vm.userForm">
+  <fieldset>
+    <legend>Редактировать</legend>
+
+    <div>
+      Имя: <input type="text" id="firstName" name="firstName" class="form-control" required
+                  data-ng-model="vm.person.Name" 
+                  placeholder="Enter First Name"
+                  data-ng-minlength="3"
+                  data-ng-maxlength="50" /> 
+    </div>
+
+    <div>
+      Фамилия: <input type="text" id="lastName" name="lastName" class="form-control" required
+       data-ng-model="vm.person.SurName"
+       placeholder="Enter Last Name"
+       data-ng-minlength="3"
+       data-ng-maxlength="50" /> 
+    </div>
+
+    <div>
+      Дата рождения:<input type="text" id="birthDay" name="birthDay" class="form-control" required
+       data-ng-model="vm.person.BirthDay"/> 
+      <script type="text/javascript">
+        $(function () {
+          appService.addDatePicker("birthDay");
+        });
+      </script>
+    </div>
+
+    <a ui-sref="persons">Cancel</a>
+    <button type="submit" >Update</button>
+  </fieldset>
+</form>
