@@ -44,7 +44,7 @@ namespace AddressBook.Ang.Controllers
     [Route("api/Person")]
     public void Post([FromBody] Person person)
     {
-      // $resource.$update() doesn't work  in angular
+      // there is no $resource.$update() in angular
       // so, we use $save() and check primary key
       if (person.Id > 0)
         _repository.EditPerson(person);
@@ -58,7 +58,7 @@ namespace AddressBook.Ang.Controllers
     public void Put(int id, [FromBody] Person person)
     {
       // not used
-      // $resource.$update() doesn't work  in angular
+      // there is no $resource.$update() in angular
       _repository.EditPerson(person);
     }
 

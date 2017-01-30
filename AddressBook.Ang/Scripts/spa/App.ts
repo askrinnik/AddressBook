@@ -89,7 +89,27 @@ module AddressBookApp {
                 (stateParams, personService: IPersonResource) => personService.get({ id: stateParams.userId }).$promise.then(data => data)
               ]
             }
-
+          })
+          .state("createPerson",
+          {
+            url: "/createPerson",
+            views: {
+              "": {
+                templateUrl: "scripts/spa/Templates/EditPerson.tpl.html",
+                controller: "EditPersonController",
+                controllerAs: "vm"
+              }
+            },
+            resolve: {
+              person: [
+                "PersonService",
+                (personService: IPersonResource) => {
+                  const aa = new personService();
+                  aa.id = 0;
+                  return aa;
+                } 
+              ]
+            }
           })
           ;
       }

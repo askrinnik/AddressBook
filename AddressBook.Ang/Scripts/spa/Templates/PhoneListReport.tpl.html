@@ -7,10 +7,10 @@
   </tr>
   <tr ng-repeat="item in vm.phones">
     <td>
-      <a href="" ng-click="editPerson(item.PersonId)">{{item.PersonName}}</a>
+      <a ui-sref="editPerson({userId: item.PersonId})">{{item.PersonName}}</a>
     </td>
     <td>
-      <a href="" ng-click="editPhone(item.PhoneId)">{{item.PersonPhone}}</a>
+      <a ui-sref="editPhone({phoneId: item.PhoneId})">{{item.PersonPhone}}</a>
     </td>
   </tr>
 </table>
