@@ -5,7 +5,7 @@
     function (state, person: IPerson) {
       this.person = person;
 
-      this.updateUser = (person: IPerson) => {
+      this.updateUser = () => {
         person.$save().then(() => state.go("persons"));
       }
     }

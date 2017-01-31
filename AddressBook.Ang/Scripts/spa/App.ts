@@ -105,7 +105,7 @@ module AddressBookApp {
                 "PersonService",
                 (personService: IPersonResource) => {
                   const aa = new personService();
-                  aa.id = 0;
+                  aa.Id = 0;
                   return aa;
                 } 
               ]

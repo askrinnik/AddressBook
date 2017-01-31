@@ -1,9 +1,9 @@
 ﻿module AddressBookApp {
   export interface IPerson extends ng.resource.IResource<IPerson> {
-    id: number;
-    name: string;
-    surName: string;
-    birthDay: Date;
+    Id: number;
+    Name: string;
+    SurName: string;
+    BirthDay: Date;
 //    $update(): ng.IPromise<IPerson>;
   }
 }
