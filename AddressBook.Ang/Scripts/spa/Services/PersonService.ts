@@ -7,7 +7,7 @@
     // Define your custom actions here as IActionDescriptor
     var getByName: ng.resource.IActionDescriptor = {
       method: "GET",
-      url: "/api/person/GetByName/:personName",
+      url: "api/person/GetByName/:personName",
       isArray: true
     };
 
@@ -16,7 +16,7 @@
     };
 
     // Return the resource, include your custom actions
-    return $resource("/api/person/:id", null, actions) as IPersonResource;
+    return $resource("api/person/:id", null, actions) as IPersonResource;
 
   }]);
 
