@@ -9,27 +9,25 @@
 
 <div>
   <input type="text" name="personName" data-ng-model="vm.searchText" />
-  <button type="button" ng-click="vm.getByName()">Поиск</button><br/>
-  <img id="loading" src="/Images/preloader.gif" data-ng-show="vm.isShowProgress" alt="Loading..."/>
+  <button type="button" data-ng-click="vm.getByName()">Поиск</button><br/>
+  <img id="loading" src="Images/preloader.gif" data-ng-show="vm.isShowProgress" alt="Loading..."/>
   <div id="SearchResults" data-ng-show="!vm.isShowProgress">
-    <table>
-      <tr>
-        <th>Имя</th>
-        <th>Фамилия</th>
-        <th>Дата рождения</th>
-        <th></th>
-      </tr>
-      <tr data-ng-repeat="person in vm.persons">
-        <td>{{person.Name}}</td>
-        <td>{{person.SurName}}</td>
-        <td>{{person.BirthDay}}</td>
-        <td>
-          <a ui-sref="viewPerson({userId: person.Id})">Детали</a>
-          <a ui-sref="editPerson({userId: person.Id})">Редактировать</a>
-          <a href="#" data-ng-click="vm.deletePerson(person)">Удалить</a>
-          <a href="/Phone/Index/1">Телефоны</a>
-        </td>
-      </tr>
-    </table>
+    <div class="row">
+      <div class="col-md-1">Имя</div>
+      <div class="col-md-1">Фамилия</div>
+      <div class="col-md-1">Дата рождения</div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class="row" data-ng-repeat="person in vm.persons" data-ng-class-even="'evenRowStyleGrid'">
+      <div class="col-md-1">{{person.Name}}</div>
+      <div class="col-md-1">{{person.SurName}}</div>
+      <div class="col-md-1">{{person.BirthDay | date }}</div>
+      <div class="col-md-3">
+        <a ui-sref="viewPerson({userId: person.Id})">Детали</a>
+        <a ui-sref="editPerson({userId: person.Id})">Редактировать</a>
+        <a href="#" data-ng-click="vm.deletePerson(person)">Удалить</a>
+        <a href="/Phone/Index/1">Телефоны</a>
+      </div>
+    </div>
   </div>
 </div>

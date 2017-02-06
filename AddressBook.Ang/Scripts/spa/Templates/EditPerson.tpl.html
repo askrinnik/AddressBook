@@ -1,34 +1,46 @@
 ﻿<form data-ng-submit="vm.updateUser()" name="vm.userForm">
-  <fieldset>
-    <legend>Редактировать</legend>
+  <div class="container">
+    <h2>Редактировать</h2>
 
-    <div>
-      Имя: <input type="text" id="firstName" name="firstName" class="form-control" required
-                  data-ng-model="vm.person.Name" 
-                  placeholder="Enter First Name"
-                  data-ng-minlength="3"
-                  data-ng-maxlength="50" /> 
+    <div class="row form-group">
+      <label for="firstName" class="col-md-2 text-right">Имя:</label>
+      <div class="col-md-3">
+        <input type="text" id="firstName" name="firstName" class="form-control" required
+               data-ng-model="vm.person.Name"
+               placeholder="Enter First Name"
+               data-ng-minlength="3"
+               data-ng-maxlength="50" />
+      </div>
     </div>
 
-    <div>
-      Фамилия: <input type="text" id="lastName" name="lastName" class="form-control" required
-       data-ng-model="vm.person.SurName"
-       placeholder="Enter Last Name"
-       data-ng-minlength="3"
-       data-ng-maxlength="50" /> 
+    <div class="row form-group">
+      <label for="lastName" class="col-md-2 text-right">Фамилия:</label>
+      <div class="col-md-3">
+        <input type="text" id="lastName" name="lastName" class="form-control" required
+               data-ng-model="vm.person.SurName"
+               placeholder="Enter Last Name"
+               data-ng-minlength="3"
+               data-ng-maxlength="50" />
+      </div>
     </div>
 
-    <div>
-      Дата рождения:<input type="text" id="birthDay" name="birthDay" class="form-control" required
-       data-ng-model="vm.person.BirthDay"/> 
-      <script type="text/javascript">
-        $(function () {
-          appService.addDatePicker("birthDay");
-        });
-      </script>
+    <div class="row form-group">
+      <label for="birthDay" class="col-md-2 text-right">Дата рождения:</label>
+      <div class="col-md-3">
+        <input type="text" id="birthDay" name="birthDay" class="form-control" required
+               data-ng-model="vm.person.BirthDay" />
+        <script type="text/javascript">
+          $(function () {
+            appService.addDatePicker("birthDay");
+          });
+        </script>
+      </div>
     </div>
-
-    <a ui-sref="persons">Cancel</a>
-    <button type="submit" >Update</button>
-  </fieldset>
+    <div class="row">
+      <div class="col-md-5 text-center">
+        <button type="submit" class="btn btn-success">Update</button>
+        <a ui-sref="persons" class="btn btn-danger">Cancel</a>
+      </div>
+    </div>
+  </div>
 </form>
