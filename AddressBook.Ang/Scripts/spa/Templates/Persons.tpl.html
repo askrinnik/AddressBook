@@ -8,26 +8,35 @@
 </p>
 
 <div>
-  <input type="text" name="personName" data-ng-model="vm.searchText" />
-  <button type="button" data-ng-click="vm.getByName()">Поиск</button><br/>
-  <img id="loading" src="Images/preloader.gif" data-ng-show="vm.isShowProgress" alt="Loading..."/>
+  <div>
+    <input type="text" name="personName" data-ng-model="vm.searchText" />
+    <button type="button" data-ng-click="vm.getByName()">Поиск</button><br />
+    <img id="loading" src="Images/preloader.gif" data-ng-show="vm.isShowProgress" alt="Loading..." />
+  </div>
   <div id="SearchResults" data-ng-show="!vm.isShowProgress">
-    <div class="row">
-      <div class="col-md-1">Имя</div>
-      <div class="col-md-1">Фамилия</div>
-      <div class="col-md-1">Дата рождения</div>
-      <div class="col-md-3"></div>
-    </div>
-    <div class="row" data-ng-repeat="person in vm.persons" data-ng-class-even="'evenRowStyleGrid'">
-      <div class="col-md-1">{{person.Name}}</div>
-      <div class="col-md-1">{{person.SurName}}</div>
-      <div class="col-md-1">{{person.BirthDay | date }}</div>
-      <div class="col-md-3">
-        <a ui-sref="viewPerson({userId: person.Id})">Детали</a>
-        <a ui-sref="editPerson({userId: person.Id})">Редактировать</a>
-        <a href="#" data-ng-click="vm.deletePerson(person)">Удалить</a>
-        <a href="/Phone/Index/1">Телефоны</a>
-      </div>
-    </div>
+    <table style="width: 50%" class="table table-bordered">
+      <thead>
+      <tr>
+        <th class="col-md-1">Имя</th>
+        <th class="col-md-1">Фамилия</th>
+        <th class="col-md-1">Дата рождения</th>
+        <th class="col-md-3"></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr data-ng-repeat="person in vm.persons" data-ng-class-even="'evenRowStyleGrid'">
+        <td class="col-md-1">{{person.Name}}</td>
+        <td class="col-md-1">{{person.SurName}}</td>
+        <td class="col-md-1">{{person.BirthDay | date }}</td>
+        <td class="col-md-3">
+          <a ui-sref="viewPerson({userId: person.Id})">Детали</a>
+          <a ui-sref="editPerson({userId: person.Id})">Редактировать</a>
+          <a href="#" data-ng-click="vm.deletePerson(person)">Удалить</a>
+          <a href="/Phone/Index/1">Телефоны</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
   </div>
 </div>
