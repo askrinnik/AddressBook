@@ -25,12 +25,12 @@
       </thead>
       <tbody>
       <tr data-ng-repeat="person in vm.persons" data-ng-class-even="'evenRowStyleGrid'">
-        <td class="col-md-1">{{person.Name}}</td>
-        <td class="col-md-1">{{person.SurName}}</td>
-        <td class="col-md-1">{{person.BirthDay | date }}</td>
+        <td class="col-md-1">{{person.name}}</td>
+        <td class="col-md-1">{{person.surName}}</td>
+        <td class="col-md-1">{{person.birthDay | date }}</td>
         <td class="col-md-3">
-          <a ui-sref="viewPerson({userId: person.Id})">Детали</a>
-          <a ui-sref="editPerson({userId: person.Id})">Редактировать</a>
+          <a ui-sref="viewPerson({userId: person.id})">Детали</a>
+          <a ui-sref="editPerson({userId: person.id})">Редактировать</a>
           <a href="#" data-ng-click="vm.deletePerson(person)">Удалить</a>
           <a href="/Phone/Index/1">Телефоны</a>
         </td>

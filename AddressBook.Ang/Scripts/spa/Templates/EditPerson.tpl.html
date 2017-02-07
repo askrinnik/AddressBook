@@ -5,7 +5,7 @@
       <label for="firstName" class="control-label col-md-1">Имя:</label>
       <div class="col-md-2">
         <input type="text" id="firstName" name="firstName" class="form-control" required
-               data-ng-model="vm.person.Name"
+               data-ng-model="vm.person.name"
                placeholder="Enter First Name"
                data-ng-minlength="3"
                data-ng-maxlength="50" />
@@ -16,7 +16,7 @@
       <label for="lastName" class="control-label col-md-1">Фамилия:</label>
       <div class="col-md-2">
         <input type="text" id="lastName" name="lastName" class="form-control" required
-               data-ng-model="vm.person.SurName"
+               data-ng-model="vm.person.surName"
                placeholder="Enter Last Name"
                data-ng-minlength="3"
                data-ng-maxlength="50" />
@@ -27,7 +27,7 @@
       <label for="birthDay" class="control-label col-md-1">Дата рождения:</label>
       <div class="col-md-2">
         <input type="text" id="birthDay" name="birthDay" class="form-control" required
-               data-ng-model="vm.person.BirthDay" />
+               data-ng-model="vm.person.birthDay" />
         <script type="text/javascript">
           $(function () {
             appService.addDatePicker("birthDay");
@@ -37,7 +37,7 @@
     </div>
     <div class="form-group">
       <div class="col-md-offset-1 col-md-2">
-        <button type="submit" class="btn btn-success">Update</button>
+        <button type="submit" class="btn btn-success">Save</button>
         <a ui-sref="persons" class="btn btn-danger">Cancel</a>
       </div>
     </div>

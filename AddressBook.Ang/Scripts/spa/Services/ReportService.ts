@@ -7,12 +7,12 @@
     // Define your custom actions here as IActionDescriptor
     var getPhoneList: ng.resource.IActionDescriptor = {
       method: "GET",
-      url: "/api/person/getPhoneList",
+      url: "api/person/getPhoneList",
       isArray: true
     };
     var getPhoneCount: ng.resource.IActionDescriptor = {
       method: "GET",
-      url: "/api/person/getPhoneCount",
+      url: "api/person/getPhoneCount",
       isArray: true
     };
 

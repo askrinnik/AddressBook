@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.ExceptionHandling;
+using Newtonsoft.Json.Serialization;
 
 namespace AddressBook.Ang
 {
@@ -12,8 +13,13 @@ namespace AddressBook.Ang
       // Web API routes
       config.MapHttpAttributeRoutes();
 
-      config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new {id = RouteParameter.Optional});
       config.Services.Replace(typeof(IExceptionHandler), new CustomExceptionHandler());
+
+      //config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+      //config.Formatters.JsonFormatter.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None;
+      config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+      config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
     }
   }
 }

@@ -29,8 +29,8 @@
         .finally(() => this.isShowProgress = false);
     }
     deletePerson(person: IPerson) {
-      this.personService.remove({id: person.Id }).$promise
-//      person.$remove() // doesn't work because we have field 'Id' but 'id' is required. Couldn't figureout how to fix
+      this.personService.remove(person).$promise
+//      person.$remove() // doesn't work. Couldn't figureout how to fix
         .then(() => {
         const index = this.persons.indexOf(person);
         this.persons.splice(index, 1);

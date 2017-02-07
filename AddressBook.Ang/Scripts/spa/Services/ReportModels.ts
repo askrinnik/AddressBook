@@ -1,14 +1,14 @@
 ﻿module AddressBookApp {
   export interface IPhoneList extends ng.resource.IResource<IPhoneList> {
-    PersonId: number;
-    PersonName: string;
-    PhoneId: number;
-    PersonPhone: string;
+    personId: number;
+    personName: string;
+    phoneId: number;
+    personPhone: string;
   }
   export interface IPhoneCount extends ng.resource.IResource<IPhoneCount> {
-    PersonId: number;
-    PersonName: string;
-    Phones: number;
+    personId: number;
+    personName: string;
+    phones: number;
   }
 
 }
