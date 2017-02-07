@@ -5,6 +5,7 @@ using AddressBook.Core.DataAccess;
 
 namespace AddressBook.Ang.Controllers
 {
+  [RoutePrefix("api/Person")]
   public class PersonController : ApiController
   {
     private readonly IAddressBookRepository _repository; // = new AddressBookRepository(new AddressBookContext());
@@ -16,7 +17,7 @@ namespace AddressBook.Ang.Controllers
 
     // GET: api/Person
     [HttpGet]
-    [Route("api/Person")]
+    [Route("")]
     public IEnumerable<Person> GetAll()
     {
       return _repository.GetPersons();
@@ -24,7 +25,7 @@ namespace AddressBook.Ang.Controllers
 
     // GET: api/Person/GetByName/:personName
     [HttpGet]
-    [Route("api/Person/GetByName/{personName}")]
+    [Route("GetByName/{personName}")]
     public IEnumerable<Person> GetByName(string personName)
     {
       Thread.Sleep(1000);
@@ -33,7 +34,7 @@ namespace AddressBook.Ang.Controllers
 
     // GET: api/Person/5
     [HttpGet]
-    [Route("api/Person/{id}")]
+    [Route("{id}")]
     public Person Get(int id)
     {
       return _repository.GetPerson(id);
@@ -41,7 +42,7 @@ namespace AddressBook.Ang.Controllers
 
     // POST: api/Person
     [HttpPost]
-    [Route("api/Person")]
+    [Route("")]
     public void Post([FromBody] Person person)
     {
       // there is no $resource.$update() in angular
@@ -54,7 +55,7 @@ namespace AddressBook.Ang.Controllers
 
     // PUT: api/Person/5
     [HttpPut]
-    [Route("api/Person/{id}")]
+    [Route("{id}")]
     public void Put(int id, [FromBody] Person person)
     {
       // not used
@@ -64,21 +65,21 @@ namespace AddressBook.Ang.Controllers
 
     // DELETE: api/Person/5
     [HttpDelete]
-    [Route("api/Person/{id}")]
+    [Route("{id}")]
     public void Delete(int id)
     {
       _repository.DeletePerson(id);
     }
 
     [HttpGet]
-    [Route("api/Person/getPhoneList")]
+    [Route("getPhoneList")]
     public IEnumerable<PhoneListModel> GetPhoneList()
     {
       return _repository.GetPhoneList();
     }
 
     [HttpGet]
-    [Route("api/Person/getPhoneCount")]
+    [Route("getPhoneCount")]
     public IEnumerable<PhoneCountModel> GetPhoneCount()
     {
       return _repository.GetPhoneCount();
