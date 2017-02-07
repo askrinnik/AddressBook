@@ -19,7 +19,8 @@ namespace AddressBook.Ang
 
       var response = new HttpResponseMessage(HttpStatusCode.InternalServerError)
       {
-        Content = new StringContent($"Internal Server Error <{errorGuid}>. Please, call to the administrator."),
+        //Content = new StringContent($"Internal Server Error <{errorGuid}>. Please, call to the administrator."),
+        Content = new StringContent($"Internal Server Error\n{exception}"),
         RequestMessage = request
       };
       return response;

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
 
 namespace AddressBook.Core.DataAccess
 {
@@ -14,6 +15,7 @@ namespace AddressBook.Core.DataAccess
     public string PhoneNumber { get; set; }
 
     public int PersonId { get; set; }
+    [IgnoreDataMember]
     public Person Person { get; set; }
   }
 }
