@@ -1,15 +1,27 @@
-﻿<fieldset>
-  <legend>Детали</legend>
+﻿<div class="form-horizontal">
+  <h2>Детали</h2>
 
-  <div class="display-label">
-    Имя: {{vm.person.name}}
+  <div class="form-group">
+    <label class="control-label col-md-1">Имя:</label>
+    <div class="col-md-2">
+      <p class="form-control-static" >{{vm.person.name}}</p>
+    </div>
   </div>
-
-  <div class="display-label">
-    Фамилия: {{vm.person.surName}}
+  <div class="form-group">
+    <label class="control-label col-md-1">Фамилия:</label>
+    <div class="col-md-2">
+      <p class="form-control-static" >{{vm.person.surName}}</p>
+    </div>
   </div>
-
-  <div class="display-label">
-    Дата рождения:{{vm.person.birthDay}}
+  <div class="form-group">
+    <label class="control-label col-md-1">Дата рождения:</label>
+    <div class="col-md-2">
+      <p class="form-control-static" >{{vm.person.birthDay}}</p>
+    </div>
   </div>
-</fieldset>
+  <div class="form-group">
+    <div class="col-md-offset-1 col-md-2">
+      <a ui-sref="persons" class="btn btn-success">Back</a>
+    </div>
+  </div>
+</div>
