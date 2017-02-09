@@ -284,6 +284,7 @@
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\spa.js" />
     <Content Include="Scripts\spa\Templates\EditPerson.tpl.html" />
+    <Content Include="Scripts\spa\Templates\PhoneList.tpl.html" />
     <Content Include="Scripts\spa\Templates\ViewPerson.tpl.html" />
     <Content Include="Scripts\spa\Templates\PhoneCountReport.tpl.html" />
     <Content Include="Scripts\spa\Templates\PhoneListReport.tpl.html" />
@@ -329,8 +330,11 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\spa\App.ts" />
     <TypeScriptCompile Include="Scripts\spa\Controllers\EditPersonController.ts" />
+    <TypeScriptCompile Include="Scripts\spa\Controllers\PhoneListController.ts" />
     <TypeScriptCompile Include="Scripts\spa\Controllers\ViewPersonController.ts" />
     <TypeScriptCompile Include="Scripts\spa\Services\appService.ts" />
+    <TypeScriptCompile Include="Scripts\spa\Services\IPhone.ts" />
+    <TypeScriptCompile Include="Scripts\spa\Services\PhoneResource.ts" />
     <TypeScriptCompile Include="Scripts\spa\Services\ReportModels.ts" />
     <TypeScriptCompile Include="Scripts\spa\Services\IPerson.ts" />
     <TypeScriptCompile Include="Scripts\spa\Services\IReportResource.ts" />

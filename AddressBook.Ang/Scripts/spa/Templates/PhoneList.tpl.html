@@ -1,0 +1,25 @@
+﻿<h2>Телефоны</h2>
+
+<table style="width: 50%" class="table table-bordered">
+  <thead>
+    <tr>
+      <th class="col-md-1">Номер телефона</th>
+      <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="phone in vm.phones" data-ng-class-even="'evenRowStyleGrid'">
+      <td class="col-md-1">
+        <div>{{phone.phoneNumber}}</div>
+        <!--<div><input type="text" ng-model="phone.phoneNumber"/></div>-->
+      </td>
+      <td class="col-md-1">
+        <a ui-sref="editPhone(phone)">Редактировать</a>
+      </td>
+      <td class="col-md-1">
+        <a ui-sref="deletePhone(phone)">Удалить</a>
+      </td>
+    </tr>
+  </tbody>
+</table>

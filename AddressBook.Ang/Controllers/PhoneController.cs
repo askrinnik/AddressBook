@@ -9,7 +9,7 @@ namespace AddressBook.Ang.Controllers
   [RoutePrefix("api/Phone")]
   public class PhoneController : ApiController
   {
-    private readonly IAddressBookRepository _repository; // = new AddressBookRepository(new AddressBookContext());
+    private readonly IAddressBookRepository _repository; 
 
     public PhoneController(IAddressBookRepository repository)
     {
@@ -70,20 +70,6 @@ namespace AddressBook.Ang.Controllers
     public void Delete(int id)
     {
       _repository.DeletePerson(id);
-    }
-
-    [HttpGet]
-    [Route("getPhoneList")]
-    public IEnumerable<PhoneListModel> GetPhoneList()
-    {
-      return _repository.GetPhoneList();
-    }
-
-    [HttpGet]
-    [Route("getPhoneCount")]
-    public IEnumerable<PhoneCountModel> GetPhoneCount()
-    {
-      return _repository.GetPhoneCount();
     }
 
   }
