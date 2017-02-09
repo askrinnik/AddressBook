@@ -2,7 +2,7 @@
 
 namespace AddressBook.Core.DataAccess
 {
-  public class PhoneListModel
+  public class PhoneListReportModel
   {
     public int PersonId { get; set; }
 
@@ -15,7 +15,7 @@ namespace AddressBook.Core.DataAccess
     public string PersonPhone { get; set; }
   }
 
-  public class PhoneCountModel
+  public class PhoneCountReportModel
   {
     public int PersonId { get; set; }
 

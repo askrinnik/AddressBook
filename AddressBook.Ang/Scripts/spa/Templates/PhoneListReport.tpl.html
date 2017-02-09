@@ -7,7 +7,7 @@
   </tr>
   <tr ng-repeat="item in vm.phones">
     <td>
-      <a ui-sref="editPerson({userId: item.personId})">{{item.personName}}</a>
+      <a ui-sref="editPerson({personId: item.personId})">{{item.personName}}</a>
     </td>
     <td>
       <a ui-sref="editPhone({phoneId: item.phoneId})">{{item.personPhone}}</a>

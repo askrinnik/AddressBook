@@ -29,10 +29,10 @@
         <td class="col-md-1">{{person.surName}}</td>
         <td class="col-md-1">{{person.birthDay | date }}</td>
         <td class="col-md-3">
-          <a ui-sref="viewPerson({userId: person.id})">Детали</a>
-          <a ui-sref="editPerson({userId: person.id})">Редактировать</a>
+          <a ui-sref="viewPerson({personId: person.id})">Детали</a>
+          <a ui-sref="editPerson({personId: person.id})">Редактировать</a>
           <a href="#" data-ng-click="vm.deletePerson(person)">Удалить</a>
-          <a href="/Phone/Index/1">Телефоны</a>
+          <a ui-sref="phoneList({personId: person.id})">Телефоны</a>
         </td>
       </tr>
       </tbody>

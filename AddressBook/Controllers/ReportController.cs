@@ -20,7 +20,7 @@ namespace AddressBook.Controllers
 
     public ActionResult PhoneList()
     {
-      var list = _repository.GetPhoneList();
+      var list = _repository.GetPhoneListReport();
 
       return View(list.ToArray());
     }
@@ -28,7 +28,7 @@ namespace AddressBook.Controllers
 
     public ActionResult PhoneCount()
     {
-      var phoneCounts = _repository.GetPhoneCount();
+      var phoneCounts = _repository.GetPhoneCountReport();
       return View(phoneCounts.ToArray());
     }
 

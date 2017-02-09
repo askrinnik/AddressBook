@@ -33,9 +33,9 @@ module AddressBookApp {
               }
             }
           })
-          .state("phoneList",
+          .state("phoneListReport",
           {
-            url: "/phoneList",
+            url: "/phoneListReport",
             views: {
               "": {
                 templateUrl: "scripts/spa/Templates/PhoneListReport.tpl.html",
@@ -44,9 +44,9 @@ module AddressBookApp {
               }
             }
           })
-          .state("phoneCount",
+          .state("phoneCountReport",
           {
-            url: "/phoneCount",
+            url: "/phoneCountReport",
             views: {
               "": {
                 templateUrl: "scripts/spa/Templates/PhoneCountReport.tpl.html",
@@ -57,7 +57,7 @@ module AddressBookApp {
           })
           .state("viewPerson",
           {
-            url: "/viewPerson/:userId",
+            url: "/viewPerson/:personId",
             views: {
               "": {
                 templateUrl: "scripts/spa/Templates/ViewPerson.tpl.html",
@@ -68,14 +68,14 @@ module AddressBookApp {
             resolve: {
               person: [
                 "$stateParams", "PersonService",
-                (stateParams, personService: IPersonResource) => personService.get({ id: stateParams.userId }).$promise.then(data => data)
+                (stateParams, personResource: IPersonResource) => personResource.get({ id: stateParams.personId }).$promise.then(data => data)
               ]
             }
 
           })
           .state("editPerson",
           {
-            url: "/editPerson/:userId",
+            url: "/editPerson/:personId",
             views: {
               "": {
                 templateUrl: "scripts/spa/Templates/EditPerson.tpl.html",
@@ -86,7 +86,7 @@ module AddressBookApp {
             resolve: {
               person: [
                 "$stateParams", "PersonService",
-                (stateParams, personService: IPersonResource) => personService.get({ id: stateParams.userId }).$promise.then(data => data)
+                (stateParams, personResource: IPersonResource) => personResource.get({ id: stateParams.personId }).$promise.then(data => data)
               ]
             }
           })
@@ -103,12 +103,24 @@ module AddressBookApp {
             resolve: {
               person: [
                 "PersonService",
-                (personService: IPersonResource) => {
-                  const aa = new personService();
-                  aa.id = 0;
-                  return aa;
+                (personResource: IPersonResource) => {
+// ReSharper disable once InconsistentNaming
+                  const newPerson = new personResource();
+                  newPerson.id = 0;
+                  return newPerson;
                 } 
               ]
+            }
+          })
+          .state("phoneList",
+          {
+            url: "/phoneList/:personId",
+            views: {
+              "": {
+                templateUrl: "scripts/spa/Templates/PhoneList.tpl.html",
+                controller: "PhoneListController",
+                controllerAs: "vm"
+              }
             }
           })
           ;

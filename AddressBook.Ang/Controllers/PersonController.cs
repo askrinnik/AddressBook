@@ -72,17 +72,17 @@ namespace AddressBook.Ang.Controllers
     }
 
     [HttpGet]
-    [Route("getPhoneList")]
-    public IEnumerable<PhoneListModel> GetPhoneList()
+    [Route("getPhoneListReport")]
+    public IEnumerable<PhoneListReportModel> GetPhoneListReport()
     {
-      return _repository.GetPhoneList();
+      return _repository.GetPhoneListReport();
     }
 
     [HttpGet]
-    [Route("getPhoneCount")]
-    public IEnumerable<PhoneCountModel> GetPhoneCount()
+    [Route("getPhoneCountReport")]
+    public IEnumerable<PhoneCountReportModel> GetPhoneCountReport()
     {
-      return _repository.GetPhoneCount();
+      return _repository.GetPhoneCountReport();
     }
 
   }

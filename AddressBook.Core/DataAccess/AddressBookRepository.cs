@@ -81,12 +81,12 @@ namespace AddressBook.Core.DataAccess
       _db.SaveChanges();
     }
 
-    public IQueryable<PhoneListModel> GetPhoneList()
+    public IQueryable<PhoneListReportModel> GetPhoneListReport()
     {
       var list = from person in _db.Persons
                  join phone in _db.Phones on person.Id equals phone.PersonId
                  select
-                 new PhoneListModel
+                 new PhoneListReportModel
                  {
                    PersonId = person.Id,
                    PersonName = person.Name + " " + person.SurName,
@@ -96,12 +96,12 @@ namespace AddressBook.Core.DataAccess
       return list;
     }
 
-    public IQueryable<PhoneCountModel> GetPhoneCount()
+    public IQueryable<PhoneCountReportModel> GetPhoneCountReport()
     {
       var phoneCounts =
         from person in _db.Persons
         select
-        new PhoneCountModel
+        new PhoneCountReportModel
         {
           PersonId = person.Id,
           PersonName = person.Name + " " + person.SurName,
