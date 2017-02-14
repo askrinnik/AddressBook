@@ -9,16 +9,24 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="phone in vm.phones" data-ng-class-even="'evenRowStyleGrid'">
+    <tr ng-repeat="phone in vm.phones" data-ng-class-even="'evenRowStyleGrid'" data-ng-controller="PhoneController as phoneController">
       <td class="col-md-1">
-        <div>{{phone.phoneNumber}}</div>
-        <!--<div><input type="text" ng-model="phone.phoneNumber"/></div>-->
+        <div data-ng-if="!phoneController.isEditing">
+          <div>{{phone.phoneNumber}}</div>
+        </div>
+        <div data-ng-if="phoneController.isEditing">
+          <form data-ng-submit="phoneController.savePhone(phone)">
+            <input type="text" ng-model="phoneController.editingPhone.phoneNumber" />
+          </form>
+        </div>
       </td>
       <td class="col-md-1">
-        <a ui-sref="editPhone(phone)">Редактировать</a>
+        <a data-ng-if="!phoneController.isEditing" href="" data-ng-click="phoneController.editPhone(phone)">
+          <span class="glyphicon glyphicon-edit"></span>
+        </a>
       </td>
       <td class="col-md-1">
-        <a ui-sref="deletePhone(phone)">Удалить</a>
+        <a href="" data-ng-click="vm.deletePhone(phone)">Удалить</a>
       </td>
     </tr>
   </tbody>

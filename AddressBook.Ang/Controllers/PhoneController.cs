@@ -16,52 +16,36 @@ namespace AddressBook.Ang.Controllers
       _repository = repository;
     }
 
-    // GET: api/Person
+    // GET: api/Phone/Person/id
     [HttpGet]
     [Route("Person/{id}")]
-    public async Task<IEnumerable<Phone>> GetAllForPerson(int id)
+    public async Task<IEnumerable<Phone>> GetAllPhonesForPerson(int id)
     {
       return await _repository.GetPersonPhones(id);
     }
 
-    // GET: api/Person/GetByName/:personName
-    [HttpGet]
-    [Route("GetByName/{personName}")]
-    public IEnumerable<Person> GetByName(string personName)
-    {
-      Thread.Sleep(1000);
-      return _repository.GetPersons(personName);
-    }
 
-    // GET: api/Person/5
-    [HttpGet]
-    [Route("{id}")]
-    public Person Get(int id)
-    {
-      return _repository.GetPerson(id);
-    }
-
-    // POST: api/Person
+    // POST: api/Phone
     [HttpPost]
     [Route("")]
-    public void Post([FromBody] Person person)
+    public void Post([FromBody] Phone phone)
     {
       // there is no $resource.$update() in angular
       // so, we use $save() and check primary key
-      if (person.Id > 0)
-        _repository.EditPerson(person);
+      if (phone.Id > 0)
+        _repository.EditPhone(phone);
       else
-        _repository.CreatePerson(person);
+        _repository.CreatePhone(phone);
     }
 
-    // PUT: api/Person/5
+    // PUT: api/Phone/5
     [HttpPut]
     [Route("{id}")]
-    public void Put(int id, [FromBody] Person person)
+    public void Put(int id, [FromBody] Phone phone)
     {
       // not used
       // there is no $resource.$update() in angular
-      _repository.EditPerson(person);
+      _repository.EditPhone(phone);
     }
 
     // DELETE: api/Person/5
