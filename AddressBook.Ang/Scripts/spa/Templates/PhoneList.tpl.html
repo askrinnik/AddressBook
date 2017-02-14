@@ -2,32 +2,44 @@
 
 <table style="width: 50%" class="table table-bordered">
   <thead>
-    <tr>
-      <th class="col-md-1">Номер телефона</th>
-      <th class="col-md-1"></th>
-      <th class="col-md-1"></th>
-    </tr>
+  <tr>
+    <th class="col-md-1">Номер телефона</th>
+    <th class="col-md-1"></th>
+    <th class="col-md-1"></th>
+  </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="phone in vm.phones" data-ng-class-even="'evenRowStyleGrid'" data-ng-controller="PhoneController as phoneController">
-      <td class="col-md-1">
-        <div data-ng-if="!phoneController.isEditing">
-          <div>{{phone.phoneNumber}}</div>
-        </div>
-        <div data-ng-if="phoneController.isEditing">
-          <form data-ng-submit="phoneController.savePhone(phone)">
-            <input type="text" ng-model="phoneController.editingPhone.phoneNumber" />
-          </form>
-        </div>
-      </td>
-      <td class="col-md-1">
-        <a data-ng-if="!phoneController.isEditing" href="" data-ng-click="phoneController.editPhone(phone)">
-          <span class="glyphicon glyphicon-edit"></span>
-        </a>
-      </td>
-      <td class="col-md-1">
-        <a href="" data-ng-click="vm.deletePhone(phone)">Удалить</a>
-      </td>
-    </tr>
+  <tr ng-repeat="phone in vm.phones" data-ng-class-even="'evenRowStyleGrid'" data-ng-controller="PhoneController as phoneController">
+    <td class="col-md-1">
+      <div data-ng-if="!phoneController.isEditing">
+        <div>{{phone.phoneNumber}}</div>
+      </div>
+      <div data-ng-if="phoneController.isEditing">
+        <form data-ng-submit="phoneController.savePhone(phone)">
+          <input type="text" ng-model="phoneController.editingPhone.phoneNumber" />
+        </form>
+      </div>
+    </td>
+    <td class="col-md-1">
+      <a data-ng-if="!phoneController.isEditing" href="" data-ng-click="phoneController.editPhone(phone)">
+        <span class="glyphicon glyphicon-edit"></span>
+      </a>
+      <a data-ng-if="phoneController.isEditing" href="" data-ng-click="phoneController.savePhone(phone)">
+        <span class="glyphicon glyphicon-ok"></span>
+      </a>
+      <a data-ng-if="phoneController.isEditing" href="" data-ng-click="phoneController.cancelEdit()">
+        <span class="glyphicon glyphicon-remove"></span>
+      </a>
+    </td>
+    <td class="col-md-1">
+      <a href="" data-ng-click="vm.deletePhone(phone)">Удалить</a>
+    </td>
+  </tr>
   </tbody>
 </table>
+<div>
+  <input type="text" ng-model="phoneController.newPhone" />
+  <a href="" data-ng-click="vm.newPhone(phoneController)">
+    <span class="glyphicon glyphicon-plus"></span>
+  </a>
+</div>
