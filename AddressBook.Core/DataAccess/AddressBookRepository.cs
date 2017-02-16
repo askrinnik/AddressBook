@@ -80,6 +80,11 @@ namespace AddressBook.Core.DataAccess
       _db.Phones.Remove(phone);
       _db.SaveChanges();
     }
+    public void DeletePhone(int id)
+    {
+      var phone = _db.Phones.Find(id);
+      DeletePhone(phone);
+    }
 
     public IQueryable<PhoneListReportModel> GetPhoneListReport()
     {

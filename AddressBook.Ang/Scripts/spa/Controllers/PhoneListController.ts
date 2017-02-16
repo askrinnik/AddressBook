@@ -17,8 +17,8 @@
         newPhone.id = 0;
         newPhone.phoneNumber = phoneController.newPhone;
         newPhone.personId = stateParams.personId;
-        newPhone.$save().then(() => {
-          this.phones.push(newPhone);
+        newPhone.$save().then( (createdPhone) => {
+          this.phones.push(createdPhone);
           phoneController.newPhone = null;
         });
       }

@@ -28,7 +28,7 @@ namespace AddressBook.Ang.Controllers
     // POST: api/Phone
     [HttpPost]
     [Route("")]
-    public void Post([FromBody] Phone phone)
+    public Phone Post([FromBody] Phone phone)
     {
       // there is no $resource.$update() in angular
       // so, we use $save() and check primary key
@@ -36,6 +36,7 @@ namespace AddressBook.Ang.Controllers
         _repository.EditPhone(phone);
       else
         _repository.CreatePhone(phone);
+      return phone;
     }
 
     // PUT: api/Phone/5
@@ -48,12 +49,12 @@ namespace AddressBook.Ang.Controllers
       _repository.EditPhone(phone);
     }
 
-    // DELETE: api/Person/5
+    // DELETE: api/Phone/5
     [HttpDelete]
     [Route("{id}")]
     public void Delete(int id)
     {
-      _repository.DeletePerson(id);
+      _repository.DeletePhone(id);
     }
 
   }
