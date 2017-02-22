@@ -4,6 +4,7 @@
     <ProjectView>ProjectFiles</ProjectView>
     <NameOfLastUsedPublishProfile>MyAddrBook</NameOfLastUsedPublishProfile>
     <UseIISExpress>true</UseIISExpress>
+    <ToolsVersionPromptShown>2.1</ToolsVersionPromptShown>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>
