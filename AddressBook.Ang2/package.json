@@ -5,8 +5,6 @@
   "private": true,
   "license": "",
   "devDependencies": {
-    "typescript": "1.8.10",
-    "typings": "^1.0.4"
   },
 
   "dependencies": {
@@ -31,9 +29,6 @@
 
   },
   "scripts": {
-    "postinstall": "typings install",
-    "typings": "typings",
-    "cmd": "npm typescript",
     "getNpmVersion": "npm -v",
     "getNodeVersion": "node -v",
     "getTscVersion": "tsc -v"
