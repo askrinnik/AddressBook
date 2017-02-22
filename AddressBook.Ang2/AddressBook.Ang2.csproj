@@ -94,7 +94,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="gulpfile.js" />
     <Content Include="styles.css" />
     <Content Include="systemjs.config.js" />
     <Content Include="Web.config" />
