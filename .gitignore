@@ -14,3 +14,5 @@
 /AddressBook.Ang2/bin
 /AddressBook.Ang2/obj
 /AddressBook.Ang2/node_modules
+/AddressBook.Ang2/app/*.map
+/AddressBook.Ang2/app/*.js
