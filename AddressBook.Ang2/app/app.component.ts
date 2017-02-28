@@ -1,4 +1,5 @@
 ﻿import { Component } from "@angular/core";
+import { NgModel } from "@angular/forms";
 
 export class Item {
   purchase: string;
@@ -17,7 +18,6 @@ export class Item {
   templateUrl: "./app/app.component.html"
 })
 export class AppComponent {
-  newItem:Item;
   items: Item[] =
   [
     { purchase: "Хлеб", done: false, price: 15.9 },
@@ -26,20 +26,19 @@ export class AppComponent {
     { purchase: "Сыр", done: false, price: 310 }
   ];
 
-  constructor() {
-    this.clearForm();
-  }
-  clearForm(): void {
-    this.newItem = new Item("", null);
-  }
+  addItem(purchaseModel: NgModel, priceInputElement: HTMLInputElement): void {
 
-  addItem(): void {
+    const purchase = purchaseModel.value;
+    // this.purchase is also available
 
-    if (this.newItem.purchase == null || this.newItem.purchase == undefined || this.newItem.purchase.trim() === "")
+    const price = priceInputElement.value;
+
+    if (purchase == null || purchase.trim() === "")
       return;
-    if (this.newItem.price == null || this.newItem.price == undefined)
+    if (price == null)
       return;
 
-    this.items.push(this.newItem);
-    this.clearForm();
+    this.items.push(new Item(purchase, Number(price)));
+    purchaseModel.reset();
+    priceInputElement.value = null;
   }}
