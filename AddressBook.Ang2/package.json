@@ -5,6 +5,7 @@
   "private": true,
   "license": "",
   "devDependencies": {
+    "@types/core-js": "^0.9.34"
   },
 
   "dependencies": {
