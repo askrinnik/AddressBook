@@ -15,7 +15,11 @@ export class Item {
 
 @Component({
   selector: "purchase-app",
-  templateUrl: "./app/app.component.html"
+  templateUrl: "./app/app.component.html",
+  styles: [`
+        input.ng-touched.ng-invalid {border:solid red 2px;}
+        input.ng-touched.ng-valid {border:solid green 2px;}
+    `]
 })
 export class AppComponent {
   items: Item[] =
@@ -26,19 +30,19 @@ export class AppComponent {
     { purchase: "Сыр", done: false, price: 310 }
   ];
 
-  addItem(purchaseModel: NgModel, priceInputElement: HTMLInputElement): void {
+  addItem(purchaseModel: NgModel, priceModel: NgModel): void {
 
     const purchase = purchaseModel.value;
     // this.purchase is also available
 
-    const price = priceInputElement.value;
+    const price = priceModel.value;
 
     if (purchase == null || purchase.trim() === "")
       return;
     if (price == null)
       return;
 
-    this.items.push(new Item(purchase, Number(price)));
+    this.items.push(new Item(purchase, price));
     purchaseModel.reset();
-    priceInputElement.value = null;
+    priceModel.reset();
   }}

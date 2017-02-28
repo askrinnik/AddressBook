@@ -5,17 +5,23 @@
   <div class="form-inline">
     <div class="form-group">
       <div class="col-md-8">
-        <input class="form-control" [(ngModel)]="purchase" placeholder="Название" #purchaseModel="ngModel"/>
+        <input class="form-control" [(ngModel)]="purchase" placeholder="Название" #purchaseModel="ngModel" required/>
+        <div [hidden]="purchaseModel.valid || purchaseModel.untouched" class="alert alert-danger">
+          Не указано название
+        </div>
       </div>
     </div>
     <div class="form-group">
       <div class="col-md-6">
-        <input type="number" class="form-control" placeholder="Цена" #priceModel/>
+        <input type="number" class="form-control" [(ngModel)]="price" placeholder="Цена" #priceModel="ngModel" required/>
+        <div [hidden]="priceModel.valid || priceModel.untouched" class="alert alert-danger">
+          Не указана цена
+        </div>
       </div>
     </div>
     <div class="form-group">
       <div class="col-md-offset-2 col-md-8">
-        <button class="btn btn-default" (click)="addItem(purchaseModel, priceModel)">Добавить</button>
+        <button class="btn btn-default" (click)="addItem(purchaseModel, priceModel)" [disabled]="purchaseModel.invalid || priceModel.invalid" >Добавить</button>
       </div>
     </div>
   </div>
