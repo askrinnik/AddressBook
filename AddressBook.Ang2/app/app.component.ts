@@ -17,7 +17,7 @@ export class Item {
   templateUrl: "./app/app.component.html"
 })
 export class AppComponent {
-
+  newItem:Item;
   items: Item[] =
   [
     { purchase: "Хлеб", done: false, price: 15.9 },
@@ -26,12 +26,20 @@ export class AppComponent {
     { purchase: "Сыр", done: false, price: 310 }
   ];
 
-  addItem(text: string, price: number): void {
+  constructor() {
+    this.clearForm();
+  }
+  clearForm(): void {
+    this.newItem = new Item("", null);
+  }
 
-    if (text == null || text == undefined || text.trim() === "")
+  addItem(): void {
+
+    if (this.newItem.purchase == null || this.newItem.purchase == undefined || this.newItem.purchase.trim() === "")
       return;
-    if (price == null || price == undefined)
+    if (this.newItem.price == null || this.newItem.price == undefined)
       return;
 
-    this.items.push(new Item(text, price));
+    this.items.push(this.newItem);
+    this.clearForm();
   }}
