@@ -5,7 +5,6 @@
   "private": true,
   "license": "",
   "devDependencies": {
-    "@types/node": "~6.0.60"
   },
 
   "dependencies": {
