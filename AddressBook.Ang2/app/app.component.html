@@ -1,44 +1,10 @@
-﻿<div class="page-header">
-  <h1> Список покупок </h1>
-</div>
-<div class="panel">
-  <div class="form-inline">
-    <div class="form-group">
-      <div class="col-md-8">
-        <input class="form-control" [(ngModel)]="purchase" placeholder="Название" #purchaseModel="ngModel" required/>
-        <div [hidden]="purchaseModel.valid || purchaseModel.untouched" class="alert alert-danger">
-          Не указано название
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-md-6">
-        <input type="number" class="form-control" [(ngModel)]="price" placeholder="Цена" #priceModel="ngModel" required/>
-        <div [hidden]="priceModel.valid || priceModel.untouched" class="alert alert-danger">
-          Не указана цена
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-md-offset-2 col-md-8">
-        <button class="btn btn-default" (click)="addItem(purchaseModel, priceModel)" [disabled]="purchaseModel.invalid || priceModel.invalid" >Добавить</button>
-      </div>
-    </div>
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Предмет</th>
-        <th>Цена</th>
-        <th>Куплено</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of items">
-        <td>{{item.purchase}}</td>
-        <td>{{item.price}}</td>
-        <td><input type="checkbox" [(ngModel)]="item.done" /></td>
-      </tr>
-    </tbody>
-  </table>
+﻿<div class="text-center">
+  <img src="./assets/img/pomodoro.png" alt="Pomodoro">
+  <h1> {{ minutes }}:{{ seconds | number: '2.0' }} </h1>
+  <p>
+    <button (click)="togglePause()"
+            class="btn btn-danger">
+      {{ buttonLabel }}
+    </button>
+  </p>
 </div>

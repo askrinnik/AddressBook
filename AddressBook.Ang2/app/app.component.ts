@@ -1,48 +1,46 @@
 ﻿import { Component } from "@angular/core";
 import { NgModel } from "@angular/forms";
 
-export class Item {
-  purchase: string;
-  done: boolean;
-  price: number;
+// Pomodoro timer component
+@Component({
+  selector: "pomodoro-timer",
+  templateUrl: "./app/app.component.html"
+})
+export class PomodoroTimerComponent {
+  minutes: number;
+  seconds: number;
+  isPaused: boolean;
+  buttonLabel: string;
 
-  constructor(purchase: string, price: number) {
-    this.purchase = purchase;
-    this.price = price;
-    this.done = false;
+  constructor() {
+    this.resetPomodoro();
+    setInterval(() => this.tick(), 1000);
+  }
+
+  resetPomodoro(): void {
+    this.isPaused = true;
+    this.minutes = 24;
+    this.seconds = 59;
+    this.buttonLabel = 'Start';
+  }
+
+  private tick(): void {
+    if (!this.isPaused) {
+      this.buttonLabel = 'Pause';
+
+      if (--this.seconds < 0) {
+        this.seconds = 59;
+        if (--this.minutes < 0) {
+          this.resetPomodoro();
+        }
+      }
+    }
+  }
+
+  togglePause(): void {
+    this.isPaused = !this.isPaused;
+    if (this.minutes < 24 || this.seconds < 59) {
+      this.buttonLabel = this.isPaused ? 'Resume' : 'Pause';
+    }
   }
 }
-
-@Component({
-  selector: "purchase-app",
-  templateUrl: "./app/app.component.html",
-  styles: [`
-        input.ng-touched.ng-invalid {border:solid red 2px;}
-        input.ng-touched.ng-valid {border:solid green 2px;}
-    `]
-})
-export class AppComponent {
-  items: Item[] =
-  [
-    { purchase: "Хлеб", done: false, price: 15.9 },
-    { purchase: "Масло", done: false, price: 60 },
-    { purchase: "Картофель", done: true, price: 22.6 },
-    { purchase: "Сыр", done: false, price: 310 }
-  ];
-
-  addItem(purchaseModel: NgModel, priceModel: NgModel): void {
-
-    const purchase = purchaseModel.value;
-    // this.purchase is also available
-
-    const price = priceModel.value;
-
-    if (purchase == null || purchase.trim() === "")
-      return;
-    if (price == null)
-      return;
-
-    this.items.push(new Item(purchase, price));
-    purchaseModel.reset();
-    priceModel.reset();
-  }}

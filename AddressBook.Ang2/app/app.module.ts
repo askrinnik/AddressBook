@@ -1,10 +1,12 @@
-﻿import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { FormsModule } from "@angular/forms";
-import { AppComponent } from "./app.component";
+﻿import { Component, NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { PomodoroTimerComponent } from './app.component';
+
+
+// Main module, bootstrapping PomodoroTimerComponent as root component
 @NgModule({
-  imports: [BrowserModule, FormsModule],
-  declarations: [AppComponent],
-  bootstrap: [AppComponent]
+  imports: [BrowserModule],
+  declarations: [PomodoroTimerComponent],
+  bootstrap: [PomodoroTimerComponent]
 })
 export class AppModule { }
