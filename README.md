@@ -111,7 +111,7 @@ AddressBook/
 │   ├── workflows/                 # GitHub Actions CI
 │   └── instructions/              # Coding standards per file type
 ├── .ai/ .claude/                  # AI assistant commands, agents and skills
-└── global.json                    # Enables Microsoft.Testing.Platform for dotnet test
+└── global.json                    # Pins the .NET SDK, enables Microsoft.Testing.Platform
 ```
 
 ## Getting started
@@ -120,7 +120,7 @@ AddressBook/
 
 | Tool | Version | Needed for |
 |---|---|---|
-| [.NET SDK](https://dotnet.microsoft.com/download) | 10.0 | API, Blazor app, bUnit tests |
+| [.NET SDK](https://dotnet.microsoft.com/download) | 10.0.403 exactly (pinned in `global.json`) | API, Blazor app, bUnit tests |
 | [Node.js](https://nodejs.org/) | 20.19+ or 22.12+ (LTS) | Vue app, Playwright suites |
 | SQL Server | 2022 (Express, Developer or the Docker image) | API |
 
