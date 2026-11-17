@@ -12,10 +12,10 @@
 	suites, local appsettings overrides and test results stay where they are.
 
 .EXAMPLE
-	pwsh -NoProfile -File .github/skills/_local.nuget-package-update/scripts/Prepare-PackageUpdate.ps1
+	pwsh -NoProfile -File .claude/skills/_local.nuget-package-update/scripts/Prepare-PackageUpdate.ps1
 
 .EXAMPLE
-	pwsh -NoProfile -File .github/skills/_local.nuget-package-update/scripts/Prepare-PackageUpdate.ps1 -WhatIf
+	pwsh -NoProfile -File .claude/skills/_local.nuget-package-update/scripts/Prepare-PackageUpdate.ps1 -WhatIf
 #>
 [CmdletBinding()]
 param(

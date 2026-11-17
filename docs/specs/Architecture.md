@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-`AddressBook` is a full-stack pet/learning project that implements a contact management (address book) application. It is written in **C# / .NET 10**, with a **Blazor WebAssembly** frontend (MudBlazor UI), an **ASP.NET Core Web API** backend following a clean CQRS + MediatR architecture, a shared contracts library, a **bUnit** component test suite, and **Playwright/TypeScript** end-to-end test suites. The application has no hosted deployment: it runs locally against SQL Server, and CI runs it in GitHub Actions against a SQL Server container. Development is collaborative between two contributors (Alexander Skrinnik and Vira Skrynnik), with extensive use of **GitHub Copilot coding agent** for automated PR creation and feature implementation. A second frontend, **Vue.js** (Vue 3, TypeScript, Vuetify) in `src/AddressBook.Vue`, offers the same UI against the same API; it has its own **Vitest** component tests and shares the UI E2E suite with the Blazor frontend. The project has been consistently maintained with 36 tracked issues, 14 pull requests, and active CI/CD via GitHub Actions.
+`AddressBook` is a full-stack pet/learning project that implements a contact management (address book) application. It is written in **C# / .NET 10**, with a **Blazor WebAssembly** frontend (MudBlazor UI), an **ASP.NET Core Web API** backend following a clean CQRS + MediatR architecture, a shared contracts library, a **bUnit** component test suite, and **Playwright/TypeScript** end-to-end test suites. The application has no hosted deployment: it runs locally against SQL Server, and CI runs it in GitHub Actions against a SQL Server container. Development is collaborative between two contributors (Alexander Skrinnik and Vira Skrynnik), with an AI-assisted workflow in Claude Code (see section 8). A second frontend, **Vue.js** (Vue 3, TypeScript, Vuetify) in `src/AddressBook.Vue`, offers the same UI against the same API; it has its own **Vitest** component tests and shares the UI E2E suite with the Blazor frontend. The project has been consistently maintained with 36 tracked issues, 14 pull requests, and active CI/CD via GitHub Actions.
 
 ---
 
@@ -167,10 +167,6 @@ Component Tests (jsdom)"]
 ```
 askrinnik/AddressBook/
 ├── .github/
-│   ├── agents/                      # Custom agent definitions (GitHub Copilot)
-│   ├── instructions/                # Path-scoped coding standards (applyTo globs)
-│   ├── prompts/                     # Copilot command wrappers (*.prompt.md)
-│   ├── skills/                      # Reusable skills (source of truth; _local.* = repo-local)
 │   ├── ISSUE_TEMPLATE/
 │   └── workflows/
 │       ├── build.yml                # CI: dotnet build on every push
@@ -180,14 +176,15 @@ askrinnik/AddressBook/
 │       ├── vue-tests.yml            # Vue app lint, build, Vitest + coverage (src/AddressBook.Vue) on PRs + main (path-filtered) + dispatch
 │       └── security.yml             # NuGet/npm vulnerability scan
 ├── .ai/
-│   ├── customizations.policy.json   # Cross-tool skills/prompts sync policy
-│   └── prompts/                     # Shared, tool-neutral command bodies
+│   └── benchmarks/                  # Harness benchmark fixtures and results, session profiles
 ├── .claude/
-│   ├── agents/                      # Claude Code agents (curated subset of .github/agents)
-│   ├── commands/                    # Claude command wrappers (/<name>)
-│   ├── rules/                       # Path-scoped rules (pointers to .github/instructions, plus docs rules)
-│   └── skills/                      # Byte-for-byte mirror of .github/skills
-├── CLAUDE.md                        # Single instruction hub (read by Claude Code + Copilot)
+│   ├── agents/                      # Project agents (Claude Code)
+│   ├── rules/                       # Path-scoped coding standards and documentation rules
+│   ├── skills/                      # Project skills (_local.*) and generic on-demand skills
+│   └── settings.json                # Plugins, permissions, MCP servers
+├── CLAUDE.md                        # Instruction hub for Claude Code
+├── issue-kit.config.json            # Repository values of the issue-kit workflow plugin
+├── profile-session.config.json      # Repository values of the harness-kit session profile
 ├── global.json                      # Pins the .NET SDK; enables the Microsoft.Testing.Platform runner for `dotnet test`
 ├── docs/
 │   ├── specs/                       # Per-project technical specifications
@@ -256,7 +253,7 @@ MudBlazor 9.8.0 Material Design UI with typed `HttpClient`, `ProblemDetailsHandl
 
 The second frontend, functionally identical to `AddressBook.Web`: Vue 3.5 with `<script setup lang="ts">`, Vite 8, Vue Router 5 (history mode) and Vuetify 4. It is a standalone npm project, not part of `src/AddressBook.slnx`. Pages call the service functions of `src/api/contactsApi.ts`; `request()` in `src/api/http.ts` turns every non-success response into a `ProblemDetailsError`, the counterpart of `ProblemDetailsHandler`. The global error banner is a composable shared through `provide` / `inject`, the counterpart of the cascading `Error` component. The API base URL is `VITE_API_PREFIX` (fallback `http://localhost:5000/api/`); the dev server runs on port 5173, `vite preview` on 4173. Its Vitest + `@vue/test-utils` component tests in `src/AddressBook.Vue/tests` run in jsdom with the API mocked and are the counterpart of `AddressBook.Web.Tests`. It is not deployed.
 
-→ Full specification: [`AddressBook.Vue.md`](./AddressBook.Vue.md); run: [`src/AddressBook.Vue/README.md`](../../src/AddressBook.Vue/README.md); coding standard: [`vue.instructions.md`](../../.github/instructions/vue.instructions.md); learning guide (Russian): [`vue-for-blazor-developers.md`](../guides/vue-for-blazor-developers.md)
+→ Full specification: [`AddressBook.Vue.md`](./AddressBook.Vue.md); run: [`src/AddressBook.Vue/README.md`](../../src/AddressBook.Vue/README.md); coding standard: [`.claude/rules/vue.md`](../../.claude/rules/vue.md); learning guide (Russian): [`vue-for-blazor-developers.md`](../guides/vue-for-blazor-developers.md)
 
 ---
 
@@ -264,7 +261,7 @@ The second frontend, functionally identical to `AddressBook.Web`: Vue 3.5 with `
 
 Component and page tests for `AddressBook.Web` on bUnit + xUnit v3. They render the real Blazor components in memory, without a browser; `IAddressBookApiService`, `NavigationManager` and JSInterop are substituted, so the suite needs no SQL Server and no running API. They run with `dotnet test --project src/AddressBook.Web.Tests` (Microsoft.Testing.Platform, enabled in `global.json`). The `web-tests.yml` workflow runs them in CI, adds the TRX results to the run summary (`dorny/test-reporter`) and uploads TRX and Cobertura coverage artifacts.
 
-→ Full specification: [`src/AddressBook.Web.Tests/README.md`](../../src/AddressBook.Web.Tests/README.md); conventions: [`bunit-conventions.instructions.md`](../../.github/instructions/bunit-conventions.instructions.md)
+→ Full specification: [`src/AddressBook.Web.Tests/README.md`](../../src/AddressBook.Web.Tests/README.md); conventions: [`.claude/rules/bunit.md`](../../.claude/rules/bunit.md)
 
 ---
 
@@ -296,26 +293,15 @@ Every workflow that needs .NET installs the SDK from `global.json` (`setup-dotne
 
 ---
 
-### 8. AI Tooling Integration (Copilot + Claude Code)
+### 8. AI Tooling Integration
 
-The project demonstrates heavy Copilot coding agent use:[^8]
+**AI customizations.** The repository is developed with **Claude Code**; how the harness is built is described in [`docs/ai/README.md`](../ai/README.md):[^9]
 
-| PR | Author | Task |
-|---|---|---|
-| #51 (open draft) | `copilot-swe-agent[bot]` | Fix exception handler middleware order |
-| #48 | `copilot-swe-agent[bot]` | Upgrade solution from .NET 9 → .NET 10 |
-| #42 | `copilot-swe-agent[bot]` | Fix Azure SWA 404 on page refresh (`staticwebapp.config.json`) |
-| #41 | `copilot-swe-agent[bot]` | Add future-birthday validation to `CreateContactCommandValidator` |
-
-> **Updated 2026-08-15:** the AI-customizations layout below reflects the current repository, which has expanded beyond the commit this report otherwise pins to.
-
-**Cross-tool AI customizations.** The repository shares its AI configuration across **GitHub Copilot** (`.github/`) and **Claude Code** (`.claude/`), governed by `.ai/customizations.policy.json`:[^9]
-
-- **Root instructions** — `CLAUDE.md` is the single hub, read by both tools; it replaced the former one-line `.github/copilot-instructions.md`. It carries the rule that all source-code comments are written in English, and points to the specs and instruction files rather than duplicating them.
-- **File-type standards** — `.github/instructions/*.instructions.md`; Copilot auto-applies them via `applyTo` globs, while Claude Code loads them through path-scoped pointer rules in `.claude/rules/` that say to read them before editing a matching file.
-- **Skills** — `.github/skills/` is the source of truth, mirrored byte-for-byte to `.claude/skills/`; repo-local workflow skills use the `_local.` prefix. A `sync-ai-customizations` skill audits parity (`check.ps1`).
-- **Commands** — one shared body per command in `.ai/prompts/`, with thin wrappers in `.github/prompts/` (Copilot) and `.claude/commands/` (Claude): `implement-issue` (one lane-based workflow for bug, feature and test-authoring issues).
-- **Agents** — `.github/agents/` holds the full Copilot set; a curated subset is translated into `.claude/agents/` for Claude Code (the rest of the roles are covered by Claude Code built-ins). The `implement-issue` workflow delegates its stages to dedicated agents on both sides, each pinned to a model: `issue-planner` (Opus), `issue-developer` (Sonnet, Opus for complex plans), `issue-verifier` (Sonnet), `security-reviewer` (Opus), `build-runner` (Haiku) and `skill-runner` (Haiku).
+- **Root instructions** — `CLAUDE.md` is the hub. It carries the rule that all source-code comments are written in English, and points to the specs and rules rather than duplicating them.
+- **File-type standards** — path-scoped rules in `.claude/rules/`; Claude Code loads a rule when it works with a matching file.
+- **Skills** — `.claude/skills/`: project skills with the `_local.` prefix (`run-api`, `run-tests`, `verify-feature`, `write-tests`, `debug-issue`, `refactor-code`, `nuget-package-update`) and generic skills loaded on demand.
+- **Issue workflow** — the `issue-kit` plugin of the `askrinnik/ai-plugins` marketplace: `/issue-kit:implement-issue` (one lane-based workflow for bug, feature and test-authoring issues), `/issue-kit:implement-issues` and `/issue-kit:next-issue`, with the plugin agents `issue-planner` (Opus), `issue-developer` (Sonnet, Opus for complex plans), `build-runner` (Haiku) and `skill-runner` (Haiku). `issue-kit.config.json` holds the repository's build and test commands and names the project agents `issue-verifier` (browser verification), `playwright-tester` (Test-authoring lane), `security-reviewer` and `architect`.
+- **Benchmark and session profile** — the `harness-kit` plugin; fixtures and results live under `.ai/benchmarks/`.
 
 ---
 
@@ -507,9 +493,7 @@ These spec documents provide implementation-level detail complementing the archi
 [^6]: [.github/workflows/build.yml](https://github.com/askrinnik/AddressBook/blob/b2aa3f742b5f21ede8ab8dc3a0b8993ad55f8c73/.github/workflows/build.yml) SHA: `b66d3ac7`
 
 
-[^8]: PR [#51](https://github.com/askrinnik/AddressBook/pull/51), PR [#48](https://github.com/askrinnik/AddressBook/pull/48), PR [#42](https://github.com/askrinnik/AddressBook/pull/42), PR [#41](https://github.com/askrinnik/AddressBook/pull/41)
-
-[^9]: [CLAUDE.md](https://github.com/askrinnik/AddressBook/blob/main/CLAUDE.md) | [.ai/customizations.policy.json](https://github.com/askrinnik/AddressBook/blob/main/.ai/customizations.policy.json) — the cross-tool AI-customizations hub and sync policy (current `main`; supersedes the former `.github/copilot-instructions.md`, which held the single *"source code supports non-English comments"* rule).
+[^9]: [CLAUDE.md](https://github.com/askrinnik/AddressBook/blob/main/CLAUDE.md) | [docs/ai/README.md](https://github.com/askrinnik/AddressBook/blob/main/docs/ai/README.md) — the instruction hub and the description of the AI harness (current `main`).
 
 [^10]: [src/AddressBook.Api/DataAccess/ApplicationDbContext.cs:400-424](https://github.com/askrinnik/AddressBook/blob/b2aa3f742b5f21ede8ab8dc3a0b8993ad55f8c73/src/AddressBook.Api/DataAccess/ApplicationDbContext.cs) (ValueObjectExtensions)
 

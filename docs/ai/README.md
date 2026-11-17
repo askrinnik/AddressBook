@@ -1,141 +1,141 @@
 # AI harness of AddressBook
 
-How the AI-assistant environment of this repository is built: what it consists of, how the workflows are organised, why each stage uses the model it does, and how to keep it healthy. The harness serves two tools — **Claude Code** and **GitHub Copilot** — from one set of shared files. Its workflow, agents, rules, skills and benchmark were adapted from the GitHubBackup repository's harness (issue #184).
+How the Claude Code environment of this repository is built: what it consists of, which parts come from plugins and which belong to the repository, and how to keep it healthy. The issue workflow comes from the `issue-kit` plugin and the harness benchmark and session profile from the `harness-kit` plugin, both of the `askrinnik/ai-plugins` marketplace. Everything specific to AddressBook — the stack rules, the project agents and skills, the build and test commands — stays in this repository.
 
 ## Layout
 
 ```
-CLAUDE.md                              single instruction hub, read by Claude Code and Copilot
-.mcp.json                              MCP servers for Claude Code (context7, microsoft-learn, nuget)
-.vscode/mcp.json                       MCP servers for Copilot in VS Code (github + the same three)
+CLAUDE.md                              instruction hub
+.mcp.json                              MCP servers (context7, microsoft-learn, nuget)
+issue-kit.config.json                  this repository's values for the issue-kit workflow
+profile-session.config.json            this repository's values for the harness-kit session profile
 .ai/
-  customizations.policy.json           layout and mirroring rules (audited by check.ps1)
-  prompts/implement-issue.md           the workflow body, shared by both tools
-  prompts/implement-issues.md          the batch workflow body (several issues, one branch)
   benchmarks/harness/                  harness benchmark: fixtures, history, reports
-.github/
-  instructions/*.instructions.md       file-type standards (source of truth; Copilot applies them via applyTo)
-  skills/                              skills (source of truth)
-  prompts/implement-issue.prompt.md    Copilot wrapper of the workflow
-  prompts/implement-issues.prompt.md   Copilot wrapper of the batch workflow
-  agents/*.agent.md                    Copilot agents (full set)
 .claude/
-  skills/                              byte-for-byte mirror of .github/skills
-  commands/implement-issue.md          Claude Code wrapper of the workflow
-  commands/implement-issues.md         Claude Code wrapper of the batch workflow
-  agents/*.md                          Claude Code agents (curated subset + workflow agents)
-  rules/*.md                           path-scoped rules: pointers to .github/instructions
-  settings.json                        shared permissions, attribution off, MCP servers enabled
+  agents/*.md                          project agents
+  rules/*.md                           path-scoped coding standards and documentation rules
+  skills/                              project skills (`_local.*`) and generic on-demand skills
+  settings.json                        plugins, permissions, attribution off, MCP servers enabled
 docs/
   specs/                               specifications (API, Contracts, Web, Vue, Architecture)
   guides/                              learning guides (vue-for-blazor-developers.md, in Russian)
   tasks/                               one plan per issue: issue-<n>-<slug>.md
-  ai/                                  the harness hub (README.md) and one document per workflow command
+  ai/                                  this document
 ```
 
-The layout is checked with `pwsh -File .github/skills/_local.sync-ai-customizations/scripts/check.ps1`.
+## Plugins
 
-## Workflows
+`.claude/settings.json` registers the marketplace (`extraKnownMarketplaces.ai-plugins`) and enables `issue-kit@ai-plugins` and `harness-kit@ai-plugins` for everyone who opens the repository.
 
-Each command has its own document in `docs/ai/`: a step tree and a Mermaid flowchart showing who acts at each step — 💻 the main session, 🤖 an agent, 🧩 a skill, 🙋 a wait for the user. The `document-workflow` skill writes them and keeps them in step with the workflow bodies in `.ai/prompts/`.
-
-| Command | Document | What it does |
+| Plugin | What it gives | Repository file |
 |---|---|---|
-| `/implement-issue <n>` | [docs/ai/implement-issue.md](implement-issue.md) | One issue end to end; the labels select the Bug, Feature or Test-authoring lane; two checkpoints with the user |
-| `/implement-issues <n> <n> …` | [docs/ai/implement-issues.md](implement-issues.md) | Several small issues on one branch, one commit each, one pull request |
-| `/next-issue [<n> …]` | [Issue order](#issue-order-next-issue) below | Recommends the next ready issue; the numbers are treated as closed |
+| `issue-kit` | The commands `/issue-kit:implement-issue`, `/issue-kit:implement-issues`, `/issue-kit:next-issue`; the skills `git-commit`, `open-pr`, `github-issue`, `init-config`; the agents `issue-planner`, `issue-developer`, `build-runner`, `skill-runner`; the commit message hook | `issue-kit.config.json` |
+| `harness-kit` | The skills `profile-session` (cost and context of a finished session) and `harness-quality-check` (benchmark) | `profile-session.config.json`, `.ai/benchmarks/harness/fixtures/` |
 
-The sections below describe what all workflows share: the agents and their models, the rules, the skills, the MCP servers and the permissions.
+The step trees and flowcharts of the two workflows, the configuration keys and the troubleshooting table are in the plugin: `docs/implement-issue.md`, `docs/implement-issues.md`, `CONFIGURATION.md` and `README.md` of `plugins/issue-kit`. Check the configuration with `/issue-kit:init-config check`.
 
-## Issue order: `/next-issue`
+## Workflow values of this repository
 
-`.github/skills/_local.next-issue/scripts/Get-NextIssue.ps1` reads all open issues with one GraphQL query and lists the ready ones: no open pull request and every "blocked by" issue closed, ordered by issue number (issues of one plan are created in plan order). `-AssumeClosed <n>` treats an issue as closed, so the workflow can recommend the next issue before the current PR merges. Dependencies must be recorded as GitHub "blocked by" relations for the order to hold.
+`issue-kit.config.json` holds only the values that differ from the plugin defaults:
 
-## Agents and models
-
-| Agent | Model | Why this model |
+| Key | Value | Why |
 |---|---|---|
-| `issue-planner` | Opus | A planning mistake is the most expensive one: it is multiplied by implementation, review and rework |
-| `issue-developer` | Sonnet; Opus for complexity `L` | Implementing an approved plan is well-specified work; `L` (migration, contract ripple, validation/security logic, > ~8 files) gets the stronger model |
-| `issue-verifier` | Sonnet | Browser walks are mechanical but produce huge snapshots; isolating them keeps the main context small |
-| `security-reviewer` | Opus | Rare, and finding a real issue needs the strongest reasoning |
-| `build-runner` | Haiku | The build-and-test gate of step 8: the build, bUnit, the Playwright API suite and the UI E2E suite. It returns the runners' summary lines verbatim with the first errors, so a retelling cannot distort the result; the main session spends one call on the gate, and the noisy build and test output stays out of its context. It checks independently of the implementer and fixes nothing |
-| `skill-runner` | Haiku | Carries out one already-approved action end to end by its skill: the commit (`git-commit`), the issue comment (`github-issue`) or the pull request (`open-pr`) — writes the text in English, runs the `git`/`gh` command, checks the result. The main session spends one call on the action and does not load the skill into its own context. It never pushes, edits the issue body or merges |
-| `architect` | Opus | Design questions on cross-layer changes |
-| `playwright-tester` | Sonnet | Test-authoring lane: explores the UI with Playwright MCP and writes specs |
+| `commands.build` | `dotnet build src/AddressBook.slnx -clp:ErrorsOnly` | The whole solution |
+| `commands.testFull` | the bUnit suite `src/AddressBook.Web.Tests` | First of the four test runners |
+| `commands.testExtra` | the Playwright API suite, the Playwright UI suite, the Vitest suite of `src/AddressBook.Vue` | The Playwright suites start the API, the Web app and the Vue app themselves |
+| `commands.format` | `prettier --check` of `src/AddressBook.Vue` | The only format check of the repository |
+| `plans.dir`, `plans.nameTemplate` | `docs/tasks`, `issue-{n}-{slug}.md` | The plan location that `.claude/rules/docs.md` defines |
+| `lanes.testAuthoring` | `testing` | The test label of this repository |
+| `roles.testAuthor` | `playwright-tester` | Writes Playwright specs with the Playwright MCP server in the Test-authoring lane |
+| `roles.verifier` | `issue-verifier` | Reproduces a defect and walks the acceptance items in a real browser; the walk is required for items with visible behaviour |
+| `roles.architect`, `roles.securityReviewer` | `architect`, `security-reviewer` | Project agents |
+| `roles.debugSkill`, `roles.testsSkill` | `debug-issue`, `write-tests` | Project skills |
+| `securityReview.triggers` | API controllers, validators, data access, `Program.cs`, configuration, CI workflows, package manifests | Changes that need the security review |
+| `commentReview.globs` | `*.cs`, `*.razor`, `*.ts`, `*.vue` | Source files whose added comments the workflow checks |
 
-The main session keeps every gate: plan review, both confirmations, the user's go-ahead before every outward action, the push, the acceptance ticks and the CI check. The implementer's "passed" is input, not proof: `build-runner` builds and tests again, independently. The scratch directories and files the main session hands to `build-runner` and `skill-runner` lie outside the repository, and both agents run one plain command per call, so that nothing stray reaches `git status` and every command matches the permission rules. The scratch location is the main session's own scratchpad, a per-session folder Claude Code keeps under the system temp directory; `build-runner` gets a subfolder of it. Files there are not deleted one by one inside the workflow: that would cost model calls and, outside auto mode, a permission prompt per file. Clearing old session folders as a whole is left to the user, outside the workflow. `skill-runner` copies numbers, names and lists from the facts it is given verbatim and adds no acceptance rows of its own: Haiku is reliable at the fixed-format actions but drifted when it re-worded dense facts in an issue comment. Copilot cannot override a subagent's model per call, so there an `L` plan is implemented in the main session. Agent parity between `.claude/agents` and `.github/agents` is manual.
+The planner and the developer are the plugin agents. They do not have the `context7` and `microsoft-learn` MCP tools; if a plan or an implementation needs library documentation, the main session looks it up or a project agent is named in `roles.planner` or `roles.developer`.
+
+## Project agents (`.claude/agents/`)
+
+| Agent | Model | Role |
+|---|---|---|
+| `issue-verifier` | Sonnet | `roles.verifier`: browser walks produce large snapshots; the agent keeps them out of the main context and returns an evidence table |
+| `playwright-tester` | Sonnet | `roles.testAuthor`: explores the UI with the Playwright MCP server and writes specs |
+| `security-reviewer` | Opus | `roles.securityReviewer`: rare, and finding a real issue needs the strongest reasoning |
+| `architect` | Opus | `roles.architect`: design questions on cross-layer changes |
+| `software-engineer`, `csharp-dotnet-janitor`, `orchestrator`, `project-documenter` | per agent | Ad-hoc work outside the issue workflow |
+
+The plugin agents take a prefix (`issue-kit:build-runner`); project agents have none.
 
 ## Rules (`.claude/rules/`)
 
-Claude Code loads a rule when it works with a file matching the rule's `paths:`. Six rules are thin pointers that tell the assistant to read a `.github/instructions/*` file before editing, so the standard stays in one place and loads only when needed (an `@`-import would be expanded at session start — the first benchmark showed ~3k tokens in every session): `api-architecture.md`, `csharp.md`, `blazor.md`, `playwright.md`, `bunit.md`, `vue.md`. Their `paths:` mirror the instruction's `applyTo` — change both together. Three rules carry their own content: `update-docs-on-code-change.md` (which document each kind of change updates), `docs.md` (where documents go, the language of `docs/guides/`, plan format, style) and `github-actions.md` (workflow security and CI conventions). Directory-scoped `CLAUDE.md` files (`src/UiTests`, `src/AddressBook.Web.Tests`) add project-specific non-negotiables.
+Claude Code loads a rule when it works with a file that matches the rule's `paths:`, so a standard costs context only when it is needed.
 
-## Skills
+| Rule | Paths | Content |
+|---|---|---|
+| `api-architecture.md` | `src/AddressBook.Api/**` | CQRS with MediatR, FluentValidation, RFC 7807, data access |
+| `csharp.md` | `**/*.cs` | C# conventions |
+| `blazor.md` | `*.razor`, `*.razor.cs`, `*.razor.css` | Blazor WebAssembly and MudBlazor conventions |
+| `bunit.md` | `src/AddressBook.Web.Tests/**` | bUnit component tests |
+| `playwright.md` | `src/ApiTests/**`, `src/UiTests/**` | Playwright API and UI E2E tests |
+| `vue.md` | `src/AddressBook.Vue/**` | Vue, Vuetify and Vitest conventions |
+| `github-actions.md` | `.github/workflows/**`, `.github/actions/**` | Workflow security and CI conventions |
+| `docs.md` | `docs/**/*.md`, `**/README.md` | Where documents go, languages, plan format, style |
+| `update-docs-on-code-change.md` | source, configuration and harness files | Which document each kind of change updates |
 
-Repository-local skills (`_local.*`, invoked as `/<name>`):
+Directory-scoped `CLAUDE.md` files (`src/UiTests`, `src/AddressBook.Web.Tests`) add the non-negotiables of those suites.
+
+## Skills (`.claude/skills/`)
+
+Project skills (`_local.*`, invoked as `/<name>`):
 
 | Skill | Purpose |
 |---|---|
-| `github-issue` | Read an issue; post the result comment for the lane. Its script `Set-AcceptanceChecks.ps1` ticks the verified items of the acceptance section (`## Критерии приёмки`, `## Acceptance criteria` or `## Acceptance`) by their positions in one call; it changes nothing else in the issue and refuses to write if anything besides the marks would differ |
 | `run-api`, `run-tests` | Start the API; run the Playwright API suite |
-| `verify-feature` | Start API + Web and walk acceptance items in a browser |
-| `git-commit` | Branch and commit-message conventions: the issue branch, staging with the plan file, the message check |
-| `open-pr` | Pull-request conventions only: target, title, `Closes #<n>`, description, merge commit, the CI check |
-| `next-issue` | Recommend the next issue |
+| `verify-feature` | Start the API and the Web app and walk acceptance items in a browser (used by `issue-verifier`) |
 | `write-tests` | Pick the test layer (Playwright API / bUnit / Playwright UI) and write the tests |
 | `debug-issue` | Reproduce and find the root cause of a defect |
 | `refactor-code` | Behaviour-preserving refactoring |
 | `nuget-package-update` | Pin-aware NuGet updates through `src/Directory.Packages.props`, family by family, with a build and test gate after each step |
-| `harness-quality-check` | Benchmark the harness (manual only) |
-| `sync-ai-customizations` | Audit the cross-tool layout |
 
-Generic skills (`aspnet-core`, `ef-core`, `security-owasp`, `update-docs`, `code-review-checklist`, `dotnet-run-tests`, `test-anti-patterns`, `coverage-analysis`, `directory-build-organization`, …) are loaded on demand instead of sitting in every context. Rarely needed ones — `coverage-analysis`, `directory-build-organization`, `test-anti-patterns`, `create-specification`, `dotnet-timezone`, `harness-quality-check` — set `disable-model-invocation: true`: their descriptions stay out of the start context, and they run only when invoked as `/<name>`. `dotnet-run-tests` is the upstream `run-tests` skill, renamed because `_local.run-tests` owns that name. `document-workflow` writes or syncs the document of a workflow command — a step tree and a Mermaid flowchart with the emoji set 💻 session, 🤖 agent, 🧩 skill, 🙋 user wait — and checks the diagram with its own local preview script.
+Generic skills (`aspnet-core`, `ef-core`, `security-owasp`, `update-docs`, `code-review-checklist`, `dotnet-run-tests`, `test-anti-patterns`, `coverage-analysis`, `directory-build-organization`, …) load on demand. Rarely needed ones — `coverage-analysis`, `directory-build-organization`, `test-anti-patterns`, `create-specification`, `dotnet-timezone` — set `disable-model-invocation: true`: their descriptions stay out of the start context, and they run only when invoked as `/<name>`. `dotnet-run-tests` is the upstream `run-tests` skill, renamed because `_local.run-tests` owns that name. `document-workflow` writes or syncs the document of a workflow.
 
 ## MCP servers
 
 | Server | Used for |
 |---|---|
-| `microsoft-learn` | Official .NET, ASP.NET Core, EF Core and Azure documentation and code samples (`microsoft-docs` skill, `issue-planner`, `issue-developer`) |
+| `microsoft-learn` | Official .NET, ASP.NET Core, EF Core and Azure documentation and code samples (`microsoft-docs` skill) |
 | `context7` | Documentation of third-party libraries: MudBlazor, FluentValidation, MediatR, bUnit, Playwright, Vue, Vue Router, Vuetify, Vitest |
 | `nuget` | Package versions, vulnerabilities and release information (`nuget-package-update`); runs through `dnx`, which needs the .NET 10 SDK |
-| `github` | Issues and pull requests — in the Copilot config only; Claude Code uses `gh` or the user's own GitHub MCP server |
 
-Claude Code asks each user once to approve the project servers in `.mcp.json`.
+Claude Code asks each user once to approve the project servers in `.mcp.json`. GitHub work goes through `gh`.
 
 ## Permissions
 
 `.claude/settings.json` is shared through git:
 
-- **allow** — build, tests, running the API and the Web app, `git` and `gh` reads, the shipping commands (`git add`/`commit`/`push`, `gh pr create`, `gh issue create`/`comment`/`edit`), adding a "blocked by" relation and listing issues through `gh api`, the `_local.*` scripts, and the documentation MCP servers. Commit, push, PR and issue creation stay gated by instruction: the assistant does them only when the user asks (`CLAUDE.md`). The same holds for `Set-AcceptanceChecks.ps1`: it runs without a system prompt like every `_local.*` script, but it edits the issue body and so runs only after the user's "yes";
+- **allow** — build, tests, running the API and the Web app, `git` and `gh` reads, the shipping commands (`git add`/`commit`/`push`, `gh pr create`, `gh issue create`/`comment`/`edit`), adding a "blocked by" relation and listing issues through `gh api`, the scripts of the `issue-kit` and `harness-kit` plugins and of `_local.nuget-package-update`, and the documentation MCP servers. Commit, push, PR and issue creation stay gated by instruction: the assistant does them only when the user asks (`CLAUDE.md`);
 - **ask** — merging, PR comments and edits, closing issues, `gh api` calls with `-X DELETE`/`PATCH`/`PUT`, with `--method`, or with `-X` after the path, `dotnet ef database`. Other `gh api repos/…` calls match no rule, so Claude Code asks for them as for any command outside `allow`;
 - **deny** — force-push, `reset --hard`, `git clean`, `rm -rf`, and reading `.env` or local `appsettings.*.local.json` secrets.
 
-It also turns off the automatic commit and PR attribution (commit messages follow the `git-commit` skill) and enables the `.mcp.json` servers. Personal overrides go to `.claude/settings.local.json`, which git ignores.
+It also turns off the automatic commit and PR attribution (commit messages follow `issue-kit:git-commit`, and the plugin hook checks them) and enables the `.mcp.json` servers. Personal overrides go to `.claude/settings.local.json`, which git ignores.
 
 ## Harness benchmark
 
-The `harness-quality-check` skill starts fixed `claude -p` sessions and records the start context, the tokens a file read adds, the rules loaded, and a judge's score against a ground truth. History: `.ai/benchmarks/harness/run-history.csv`; reports: `.ai/benchmarks/harness/reports/`. Fixtures: `bench-base` (start context by area) and `quality-vertical-slice` (a feature request answered with the full slice, validation, tests and open decisions). Run it after changing `CLAUDE.md`, rules, skills, agents, MCP servers or settings; it uses part of the usage limit.
+`/harness-kit:harness-quality-check` starts fixed `claude -p` sessions and records the start context, the tokens a file read adds, the rules loaded, and a judge's score against a ground truth. The fixtures, the history and the reports stay in this repository under `.ai/benchmarks/harness/`: `bench-base` (start context by area) and `quality-vertical-slice` (a feature request answered with the full slice, validation, tests and open decisions). Run it after changing `CLAUDE.md`, rules, skills, agents, plugins, MCP servers or settings; it uses part of the usage limit.
+
+## Session profile
+
+At the commit step the issue workflow runs `harness-kit:profile-session` and, after the user's yes, saves the session record under `.ai/benchmarks/sessions/records/`. `profile-session.config.json` maps the agents of this repository to activity categories.
 
 ## Porting to another project
 
-Carried over unchanged:
-
-- the `implement-issue` and `implement-issues` mechanics (steps, checkpoints, context economy);
-- the agents `issue-planner`, `issue-developer`, `skill-runner`, and `build-runner` with its build and test commands replaced;
-- the skills `_local.git-commit`, `_local.open-pr`, `_local.github-issue` and `_local.next-issue` — for any repository on GitHub;
-- the comment rules in `CLAUDE.md`;
-- the benchmark (`_local.harness-quality-check` and `bench-base`).
-
-Rewritten for the project:
-
-- `CLAUDE.md` and the `docs/specs/` it points to;
-- the build and test commands in `build-runner` and the security triggers of the workflows;
-- the stack rules and instructions (`api-architecture`, `blazor`, `bunit`, `playwright`) and the stack agents and skills (`issue-verifier`, `playwright-tester`, `run-api`, `run-tests`, `verify-feature`);
-- the package families in `_local.nuget-package-update`;
-- the ground truths of the `quality-*` fixtures.
+1. Enable the plugins in the project's `.claude/settings.json`.
+2. Run `/issue-kit:init-config` to draft `issue-kit.config.json` and the permission rules.
+3. Write the project's own parts: `CLAUDE.md` and the specs it points to, the stack rules, the project agents and skills that the configuration names in `roles`, and the benchmark fixtures.
 
 Preconditions: issues with an acceptance checklist and dependencies recorded as GitHub "blocked by" relations.
 
 ## Maintenance
 
-When `CLAUDE.md`, `.claude/**`, `.github/{agents,skills,prompts,instructions}/**`, `.ai/**` or `.mcp.json` change, update this document in the same change, run the layout audit, and preferably the benchmark.
+When `CLAUDE.md`, `.claude/**`, `.ai/**`, `.mcp.json`, `issue-kit.config.json` or `profile-session.config.json` change, update this document in the same change, run `/issue-kit:init-config check`, and preferably the benchmark.

@@ -6,9 +6,9 @@ TypeScript. Hybrid E2E: seed/clean data fast over the REST API, assert through t
 run also builds and serves the Vue app, so run `npm ci` in `src/AddressBook.Vue` once.
 
 The **authoritative conventions** live in
-[`.github/instructions/playwright-conventions.instructions.md`](../../.github/instructions/playwright-conventions.instructions.md)
-(section **UI E2E tests (`src/UiTests`)**) — read it before writing tests. Claude Code does not
-apply `applyTo`, so this file is the pointer. Full design & task list:
+[`.claude/rules/playwright.md`](../../.claude/rules/playwright.md)
+(section **UI E2E tests (`src/UiTests`)**); Claude Code loads that rule when you work on a file in
+this folder. Full design & task list:
 [`docs/tasks/ui-tests-framework-plan.md`](../../docs/tasks/ui-tests-framework-plan.md).
 
 Non-negotiables when adding/changing specs here:

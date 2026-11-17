@@ -11,6 +11,8 @@ paths:
   - ".ai/**"
   - ".github/**"
   - ".mcp.json"
+  - "issue-kit.config.json"
+  - "profile-session.config.json"
 ---
 
 # Keep documentation in step with code
@@ -24,8 +26,8 @@ Documentation is updated **in the same change** as the code it describes. The me
 | Web pages, components, the API service, launch profiles or ports | `docs/specs/AddressBook.Web.md` |
 | Vue pages, components, composables, the API client, routes, configuration or ports (`src/AddressBook.Vue`) | `docs/specs/AddressBook.Vue.md` and `src/AddressBook.Vue/README.md`; when a file the guide quotes changes, the excerpt in `docs/guides/vue-for-blazor-developers.md` |
 | Project structure, CI, deployment | `docs/specs/Architecture.md` |
-| How to run or write a test suite | the suite's `README.md` / `CLAUDE.md` and `.github/instructions/playwright-conventions.instructions.md` or `.github/instructions/bunit-conventions.instructions.md` (Vitest: `.github/instructions/vue.instructions.md`) |
-| AI harness: `CLAUDE.md`, `.claude/**`, `.github/{agents,skills,prompts,instructions}/**`, `.ai/**`, `.mcp.json` | `docs/ai/README.md`; a change to a workflow command's body (`.ai/prompts/<command>.md`) or the agents it calls also updates `docs/ai/<command>.md` |
+| How to run or write a test suite | the suite's `README.md` / `CLAUDE.md` and `.claude/rules/playwright.md` or `.claude/rules/bunit.md` (Vitest: `.claude/rules/vue.md`) |
+| AI harness: `CLAUDE.md`, `.claude/**`, `.ai/**`, `.mcp.json`, `issue-kit.config.json`, `profile-session.config.json` | `docs/ai/README.md` |
 | Work deferred to later | a new GitHub issue (with a "blocked by" relation when it depends on this one) — not a TODO in a document or in code |
 
 Rules:

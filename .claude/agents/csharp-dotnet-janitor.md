@@ -34,7 +34,7 @@ Use the `microsoft-docs` skill (or `context7` MCP) to verify current .NET best p
 1. **Validate changes** — build (`dotnet build src/AddressBook.slnx`) and run the tests (`cd src/ApiTests && npm test`) after each modification.
 2. **Incremental** — make small, focused, reviewable changes.
 3. **Preserve behaviour** — refactors must not change observable behaviour.
-4. **Follow conventions** — apply the standards in the relevant `.github/instructions/*` file (see `CLAUDE.md`).
+4. **Follow conventions** — apply the standards in the relevant `.claude/rules/*` file (see `CLAUDE.md`).
 5. **Safety first** — rely on version control before any larger refactor.
 
 ## Analysis order

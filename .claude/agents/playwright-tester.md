@@ -29,4 +29,4 @@ MudBlazor gotchas already known for this UI (verify against the running app, do 
 - The **birthday picker is a popover** and the **delete confirmation is a `MudMessageBox` dialog** — both render outside the row.
 - The contacts table (`MudTable`) uses **server reload** — wait for data, never a fixed timeout.
 
-Follow `.github/instructions/playwright-conventions.instructions.md` — it is the authoritative convention file for the test suites. A spec never touches the DOM directly: locators live in page/component objects.
+Follow `.claude/rules/playwright.md` — it is the authoritative convention file for the test suites. A spec never touches the DOM directly: locators live in page/component objects.

@@ -9,8 +9,6 @@ description: >
 
 # Verify a Change (API + UI)
 
-> Local skill note: This skill is intentionally repository-specific for AddressBook and does not map to a canonical upstream skill in github/awesome-copilot.
-
 Verify at **both** the API and the UI level against a list of acceptance criteria. Use this after implementing a feature or a defect fix and before asking the user to confirm.
 
 ## Start the servers

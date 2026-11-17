@@ -9,7 +9,7 @@
 | Компонентные тесты | [`src/AddressBook.Web.Tests`](../../src/AddressBook.Web.Tests) (bUnit) | [`src/AddressBook.Vue/tests`](../../src/AddressBook.Vue/tests) (Vitest) |
 | E2E-тесты | [`src/UiTests`](../../src/UiTests), проект `blazor` | [`src/UiTests`](../../src/UiTests), проект `vue` |
 
-Каждое понятие Vue объясняется рядом с его аналогом в Blazor и показано на коротком фрагменте кода проекта со ссылкой на файл. Факты о поведении приложения — в спецификации; здесь — как это устроено и почему так написано. Правила написания кода — в [vue.instructions.md](../../.github/instructions/vue.instructions.md).
+Каждое понятие Vue объясняется рядом с его аналогом в Blazor и показано на коротком фрагменте кода проекта со ссылкой на файл. Факты о поведении приложения — в спецификации; здесь — как это устроено и почему так написано. Правила написания кода — в [.claude/rules/vue.md](../../.claude/rules/vue.md).
 
 ## Содержание
 
@@ -789,4 +789,4 @@ Playwright сам поднимает API, Blazor и Vue (`webServer`). Vue он 
 | Vue Test Utils | https://test-utils.vuejs.org/guide/ |
 | Vite | https://vite.dev/guide/ |
 | TypeScript | https://www.typescriptlang.org/docs/handbook/ |
-| Этот проект | [AddressBook.Vue.md](../specs/AddressBook.Vue.md), [README](../../src/AddressBook.Vue/README.md), [vue.instructions.md](../../.github/instructions/vue.instructions.md) |
+| Этот проект | [AddressBook.Vue.md](../specs/AddressBook.Vue.md), [README](../../src/AddressBook.Vue/README.md), [.claude/rules/vue.md](../../.claude/rules/vue.md) |

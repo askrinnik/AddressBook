@@ -1,7 +1,7 @@
 # Ground truth — vertical slice
 
 `Contact` has no email today (`src/AddressBook.Api/Domain/Contact.cs`). The repository rules (`CLAUDE.md`, *Working
-style*; `.github/instructions/api-architecture.instructions.md`) require a change that spans the API and the Web
+style*; `.claude/rules/api-architecture.md`) require a change that spans the API and the Web
 frontend to be wired on both sides, validated with FluentValidation, and shipped with Playwright API tests in
 `src/ApiTests` (happy path, boundaries, negatives).
 

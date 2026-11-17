@@ -281,7 +281,7 @@ gh workflow run ui-tests.yml
   ячейки таблицы.
 - **Фронтенды.** Спеки импортируют только общие page- и component-объекты, никогда не
   `src/components/blazor/*` или `src/components/vue/*`. Оба проекта, `blazor` и `vue`, запускают одни и те же спеки.
-- Полные правила — в [`playwright-conventions.instructions.md`](../../.github/instructions/playwright-conventions.instructions.md)
+- Полные правила — в [`.claude/rules/playwright.md`](../../.claude/rules/playwright.md)
   (раздел **UI E2E tests (`src/UiTests`)**) и в [`CLAUDE.md`](CLAUDE.md).
 
 ## План

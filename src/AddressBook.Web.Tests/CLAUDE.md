@@ -6,11 +6,11 @@ are substituted. This differs from `src/UiTests` (browser E2E) and `src/ApiTests
 
 Run: `dotnet test --project src/AddressBook.Web.Tests` (MTP; filters are `--filter-class`,
 `--filter-method`, `--filter-trait`, never VSTest `--filter`). Commands, architecture and structure:
-[`README.md`](README.md). C# rules: [`.github/instructions/csharp.instructions.md`](../../.github/instructions/csharp.instructions.md).
+[`README.md`](README.md). C# rules: [`.claude/rules/csharp.md`](../../.claude/rules/csharp.md).
 
 The **authoritative conventions** live in
-[`.github/instructions/bunit-conventions.instructions.md`](../../.github/instructions/bunit-conventions.instructions.md)
-— read it before writing tests. Claude Code does not apply `applyTo`, so this file is the pointer.
+[`.claude/rules/bunit.md`](../../.claude/rules/bunit.md); Claude Code loads that rule when you work on a file in
+this folder.
 
 Full design and task list:
 [`docs/tasks/blazor-component-tests-framework-plan.md`](../../docs/tasks/blazor-component-tests-framework-plan.md).

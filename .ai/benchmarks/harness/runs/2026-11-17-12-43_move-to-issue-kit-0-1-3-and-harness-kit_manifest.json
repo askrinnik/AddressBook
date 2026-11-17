@@ -1,0 +1,41 @@
+{
+  "run": "2026-11-17-12-43_move-to-issue-kit-0-1-3-and-harness-kit",
+  "note": "Move to issue-kit 0.1.3 and harness-kit plugins, drop Copilot, rules carry full standards",
+  "harness": "3",
+  "mcp": "none",
+  "started": "2026-11-17 12:43",
+  "commit": "b13f847e",
+  "dirty": "yes",
+  "model": "claude-sonnet-5-5",
+  "effort": "medium",
+  "sessions": [
+    {
+      "test": "bench-base",
+      "rep": 1,
+      "session": "b9db100f-8925-4fc8-978f-4a3075057e53",
+      "hash": "5b64bc8a",
+      "judged": false
+    },
+    {
+      "test": "quality-vertical-slice",
+      "rep": 1,
+      "session": "bc4503ba-3c2c-42a0-8d2f-c4390efe6517",
+      "hash": "2bcf755b",
+      "judged": true
+    },
+    {
+      "test": "quality-vertical-slice",
+      "rep": 2,
+      "session": "a9ced3ac-936f-43ea-9035-f1c8df689cff",
+      "hash": "2bcf755b",
+      "judged": true
+    },
+    {
+      "test": "quality-vertical-slice",
+      "rep": 3,
+      "session": "09f69ae4-7ee3-40b2-b628-820fd2bd6d2c",
+      "hash": "2bcf755b",
+      "judged": true
+    }
+  ]
+}

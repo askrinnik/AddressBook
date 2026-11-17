@@ -389,7 +389,7 @@ The counterpart of `src/AddressBook.Web.Tests` (bUnit). The tests run on Vitest,
 | Time | Time-dependent rules use fake timers with a fixed system time |
 | Coverage | `npm run test:coverage`: V8 over `src/**` (without `main.ts` and declaration files); fails below 85 % lines or 70 % branches |
 
-Run and conventions: [src/AddressBook.Vue/README.md](../../src/AddressBook.Vue/README.md#tests); coding standard: [vue.instructions.md](../../.github/instructions/vue.instructions.md).
+Run and conventions: [src/AddressBook.Vue/README.md](../../src/AddressBook.Vue/README.md#tests); coding standard: [.claude/rules/vue.md](../../.claude/rules/vue.md).
 
 ### 9.2 UI E2E tests (Playwright)
 

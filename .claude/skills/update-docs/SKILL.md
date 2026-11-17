@@ -16,8 +16,8 @@ modifications.
 
 The following parts of this section, `Instruction Sections and Configurable Instruction Sections`
 and `Instruction Configuration` are only relevant to THIS instruction file, and are meant to be a
-method to easily modify how the Copilot instructions are implemented. Essentially the two parts
-are meant to turn portions or sections of the actual Copilot instructions on or off, and allow for
+method to easily modify how the instructions are implemented. Essentially the two parts
+are meant to turn portions or sections of the actual instructions on or off, and allow for
 custom cases and conditions for when and how to implement certain sections of this document.
 
 ### Instruction Sections and Configurable Instruction Sections

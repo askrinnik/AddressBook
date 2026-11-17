@@ -1,0 +1,15 @@
+{
+  "baseBranch": "main",
+  "workItemPattern": ["^(\\d+)-", "^#(\\d+)"],
+  "workItemCommandPattern": "/issue-kit:implement-issues?",
+  "lanePlanGlob": "docs/tasks/issue-{id}-*.md",
+  "excludeSessionManifests": [".ai/benchmarks/harness/runs"],
+  "activityRules": [
+    { "pattern": "^Agent:issue-kit:skill-runner|^Skill:issue-kit:(git-commit|open-pr|github-issue)", "category": "ship" },
+    { "pattern": "^Agent:issue-verifier", "category": "e2e" },
+    { "pattern": "^Agent:issue-kit:build-runner", "category": "build/test" },
+    { "pattern": "^Agent:(issue-kit:issue-developer|playwright-tester)", "category": "implement" },
+    { "pattern": "^Write:.*docs.tasks|^Agent:(issue-kit:issue-planner|architect)", "category": "plan" },
+    { "pattern": "^Agent:security-reviewer|^Skill:(code-review|security-review)", "category": "review" }
+  ]
+}
