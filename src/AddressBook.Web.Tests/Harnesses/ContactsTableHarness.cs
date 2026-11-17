@@ -77,9 +77,12 @@ public sealed class ContactsTableHarness(IRenderedComponent<Contacts> cut, IRend
             .Single(e => e.TextContent.Trim() == columnLabel)
             .Click();
 
-    /// <summary>Current page size from the custom "Rows per page" selector.</summary>
+    /// <summary>
+    /// Current page size from the custom "Rows per page" selector: MudSelect renders the selected value as
+    /// the text of its labelled combobox element.
+    /// </summary>
     public int RowsPerPage =>
-        int.Parse(cut.FindAll("[aria-label=\"Rows per page\"]").First().GetAttribute("value")!, CultureInfo.InvariantCulture);
+        int.Parse(cut.Find("[role=\"combobox\"][aria-label=\"Rows per page\"]").TextContent.Trim(), CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Selects the page size via <c>MudSelect&lt;int&gt;</c> (its dropdown is a popover, unreliable in bUnit,

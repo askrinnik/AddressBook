@@ -1,5 +1,6 @@
 using AddressBook.Web.Models;
 using Microsoft.AspNetCore.Components;
+using MudBlazor.Extensions;
 
 namespace AddressBook.Web.Tests.Harnesses;
 
@@ -28,7 +29,7 @@ public sealed class ContactFormHarness(IRenderedComponent<IComponent> cut)
     public DateTime? Birthday => cut.FindComponent<MudDatePicker>().Instance.Date;
 
     /// <summary>The latest date the birthday picker offers (the <c>MaxDate</c> of the <see cref="MudDatePicker"/>).</summary>
-    public DateTime? BirthdayMaxDate => cut.FindComponent<MudDatePicker>().Instance.MaxDate;
+    public DateTime? BirthdayMaxDate => cut.FindComponent<MudDatePicker>().Instance.GetState(x => x.MaxDate);
 
     public bool IsSubmitDisabled => cut.FindByTestId(TestIds.ContactFormSubmit).HasAttribute("disabled");
 
