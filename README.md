@@ -199,7 +199,7 @@ npm run build
 - **Not covered** — the API has no unit or integration tests in .NET; its behaviour is covered end to end by `src/ApiTests` and, through the frontends, by `src/UiTests`. `AddressBook.Contracts` is covered through the suites that use it.
 - **Reports** — every CI run publishes the Playwright HTML reports, the test results and the coverage reports as artifacts; the bUnit and Vitest results also appear as check runs.
 
-Conventions for writing tests: [Playwright](.github/instructions/playwright-conventions.instructions.md), [bUnit](.github/instructions/bunit-conventions.instructions.md), [Vue and Vitest](.github/instructions/vue.instructions.md).
+Conventions for writing tests: [Playwright](.claude/rules/playwright.md), [bUnit](.claude/rules/bunit.md), [Vue and Vitest](.claude/rules/vue.md).
 
 ## CI/CD
 
@@ -229,11 +229,11 @@ The end-to-end workflows need the repository secret `MSSQL_SA_PASSWORD`: the SA 
 
 ## AI-assisted development
 
-The project is developed with **Claude Code** and **GitHub Copilot**, which share one set of instructions: [CLAUDE.md](CLAUDE.md), the coding standards in [.github/instructions/](.github/instructions), and skills and commands kept in sync between `.github/` and `.claude/`.
+The project is developed with **Claude Code**: [CLAUDE.md](CLAUDE.md) is the instruction hub, and the coding standards are path-scoped rules in [.claude/rules/](.claude/rules). The issue workflow comes from the `issue-kit` plugin of the [askrinnik/ai-plugins](https://github.com/askrinnik/ai-plugins) marketplace, which `.claude/settings.json` enables; [issue-kit.config.json](issue-kit.config.json) holds this repository's values.
 
-- `/implement-issue <n>` takes a GitHub issue end to end: plan, implementation with tests, build, verification in a real browser, commit and pull request, with review checkpoints for the developer.
-- `/implement-issues <n> <n> …` runs several small issues in a row and ships them in one pull request.
-- `/next-issue` recommends the next issue whose blockers are closed.
+- `/issue-kit:implement-issue <n>` takes a GitHub issue end to end: plan, implementation with tests, build, verification in a real browser, commit and pull request, with review checkpoints for the developer.
+- `/issue-kit:implement-issues <n> <n> …` runs several small issues in a row and ships them in one pull request.
+- `/issue-kit:next-issue` recommends the next issue whose blockers are closed.
 
 How the workflow, agents and skills are built: [docs/ai/README.md](docs/ai/README.md).
 
@@ -242,7 +242,7 @@ How the workflow, agents and skills are built: [docs/ai/README.md](docs/ai/READM
 1. Open an issue with the [Bug](.github/ISSUE_TEMPLATE/bug.yml) or [Task](.github/ISSUE_TEMPLATE/task.yml) template.
 2. Work on a branch named `<issue>-<short-slug>`, for example `145-scaffold-web-tests`.
 3. Write commit messages as `#<issue> <issue title>`, followed by a list of actions.
-4. Follow the coding standards in [.github/instructions/](.github/instructions); comments in code are in English.
+4. Follow the coding standards in [.claude/rules/](.claude/rules); comments in code are in English.
 5. Ship new or changed API behaviour with Playwright tests in `src/ApiTests`, and keep the documents in `docs/specs/` in step with the code.
 6. Open a pull request into `main` that contains `Closes #<issue>`; CI must be green before it is merged with a merge commit.
 

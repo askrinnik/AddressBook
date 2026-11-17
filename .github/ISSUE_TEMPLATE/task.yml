@@ -4,7 +4,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        `/implement-issue <n>` picks the lane from the labels: tests-only work (label `testing`) goes through the Test-authoring lane, everything else through the Feature lane.
+        `/issue-kit:implement-issue <n>` picks the lane from the labels: tests-only work (label `testing`) goes through the Test-authoring lane, everything else through the Feature lane.
   - type: textarea
     id: task
     attributes:
@@ -25,7 +25,7 @@ body:
     id: dependencies
     attributes:
       label: Dependencies
-      description: 'Blocking issues (`- #n`) or "—". Set the same as GitHub "blocked by" relations — `next-issue` relies on them.'
+      description: 'Blocking issues (`- #n`) or "—". Set the same as GitHub "blocked by" relations — `issue-kit:next-issue` relies on them.'
       value: |
         —
     validations:

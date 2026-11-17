@@ -6,7 +6,7 @@ description: 'Structured generic code-review checklist covering quality, securit
 
 # Generic Code Review Instructions
 
-Comprehensive code review guidelines for GitHub Copilot that can be adapted to any project. These instructions follow best practices from prompt engineering and provide a structured approach to code quality, security, testing, and architecture review.
+Comprehensive code review guidelines that can be adapted to any project. These instructions follow best practices from prompt engineering and provide a structured approach to code quality, security, testing, and architecture review.
 
 ## Review Language
 
@@ -387,18 +387,15 @@ To customize this template for your project, add sections for:
 
 ## Additional Resources
 
-For more information on effective code reviews and GitHub Copilot customization:
+For more information on effective code reviews:
 
-- [GitHub Copilot Prompt Engineering](https://docs.github.com/en/copilot/concepts/prompting/prompt-engineering)
-- [GitHub Copilot Custom Instructions](https://code.visualstudio.com/docs/copilot/customization/custom-instructions)
-- [Awesome GitHub Copilot Repository](https://github.com/github/awesome-copilot)
 - [GitHub Code Review Guidelines](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests)
 - [Google Engineering Practices - Code Review](https://google.github.io/eng-practices/review/)
 - [OWASP Security Guidelines](https://owasp.org/)
 
 ## Prompt Engineering Tips
 
-When performing a code review, apply these prompt engineering principles from the [GitHub Copilot documentation](https://docs.github.com/en/copilot/concepts/prompting/prompt-engineering):
+When performing a code review, apply these prompt engineering principles:
 
 1. **Start General, Then Get Specific**: Begin with high-level architecture review, then drill into implementation details
 2. **Give Examples**: Reference similar patterns in the codebase when suggesting changes

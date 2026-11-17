@@ -5,8 +5,6 @@ description: 'Pin-aware NuGet dependency updates for AddressBook through Central
 
 # nuget-package-update
 
-> Local skill note: Ported from the GitHubBackup repository harness; repository-specific, no canonical upstream skill in github/awesome-copilot.
-
 ## Use this skill when
 
 - The user asks to update, bump or refresh NuGet package versions, or to check for outdated or vulnerable packages.
@@ -20,14 +18,14 @@ description: 'Pin-aware NuGet dependency updates for AddressBook through Central
 
 ## Scope
 
-NuGet only, apply-only, current branch only: no branch is created, nothing is committed or pushed, no CI run is triggered. The working tree is left with the applied edits for the user (or `/implement-issue`) to review and commit.
+NuGet only, apply-only, current branch only: no branch is created, nothing is committed or pushed, no CI run is triggered. The working tree is left with the applied edits for the user (or `/issue-kit:implement-issue`) to review and commit.
 
 ## Preflight
 
 From the repository root:
 
 ```
-pwsh -NoProfile -File .github/skills/_local.nuget-package-update/scripts/Prepare-PackageUpdate.ps1
+pwsh -NoProfile -File .claude/skills/_local.nuget-package-update/scripts/Prepare-PackageUpdate.ps1
 ```
 
 It refuses to run on a dirty tree, then removes the `bin`/`obj` folders of the .NET projects under `src` only — it never touches `node_modules`, local `appsettings.*.local.json` files or test results.

@@ -6,7 +6,7 @@ model: sonnet
 
 # Issue Verifier
 
-You do the browser work of the `implement-issue` workflow (`.ai/prompts/implement-issue.md`) in an isolated context: page snapshots, screenshots and console logs stay with you, and the caller receives only a compact result.
+You do the browser work of the `issue-kit:implement-issue` workflow (role `roles.verifier` in `issue-kit.config.json`) in an isolated context: page snapshots, screenshots and console logs stay with you, and the caller receives only a compact result.
 
 ## Modes
 

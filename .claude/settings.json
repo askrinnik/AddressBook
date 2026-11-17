@@ -4,6 +4,18 @@
     "commit": "",
     "pr": ""
   },
+  "extraKnownMarketplaces": {
+    "ai-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "askrinnik/ai-plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "issue-kit@ai-plugins": true,
+    "harness-kit@ai-plugins": true
+  },
   "enabledMcpjsonServers": ["context7", "microsoft-learn", "nuget"],
   "permissions": {
     "allow": [
@@ -49,8 +61,11 @@
       "Bash(gh run list *)",
       "Bash(gh run view *)",
       "Bash(gh api graphql *)",
-      "Bash(pwsh -NoProfile -File .github/skills/_local.*)",
-      "Bash(pwsh -File .github/skills/_local.*)",
+      "Bash(npm --prefix src/AddressBook.Vue test*)",
+      "Bash(npm --prefix src/AddressBook.Vue run format:check*)",
+      "Bash(pwsh -NoProfile -File *issue-kit*)",
+      "Bash(pwsh -NoProfile -File *harness-kit*)",
+      "Bash(pwsh -NoProfile -File .claude/skills/_local.nuget-package-update/*)",
       "PowerShell(dotnet build *)",
       "PowerShell(dotnet test *)",
       "PowerShell(dotnet restore *)",
@@ -87,8 +102,11 @@
       "PowerShell(gh run list *)",
       "PowerShell(gh run view *)",
       "PowerShell(gh api graphql *)",
-      "PowerShell(pwsh -NoProfile -File .github/skills/_local.*)",
-      "PowerShell(pwsh -File .github/skills/_local.*)"
+      "PowerShell(npm --prefix src/AddressBook.Vue test*)",
+      "PowerShell(npm --prefix src/AddressBook.Vue run format:check*)",
+      "PowerShell(pwsh -NoProfile -File *issue-kit*)",
+      "PowerShell(pwsh -NoProfile -File *harness-kit*)",
+      "PowerShell(pwsh -NoProfile -File .claude/skills/_local.nuget-package-update/*)"
     ],
     "ask": [
       "Bash(gh pr merge *)",

@@ -131,7 +131,7 @@ npm run test:remote
   проверки статуса/данных — в тестах.
 - **Контрактные схемы.** Ответы валидируются zod-схемами через `expectMatchesSchema`; строгие
   схемы ловят дрейф контракта (лишние/утёкшие поля).
-- Подробнее — в [`playwright-conventions.instructions.md`](../../.github/instructions/playwright-conventions.instructions.md).
+- Подробнее — в [`.claude/rules/playwright.md`](../../.claude/rules/playwright.md).
 
 ## CI
 

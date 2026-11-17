@@ -5,7 +5,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        `/implement-issue <n>` takes a `bug` issue through the Bug lane: reproduce, fix the root cause, add a regression test.
+        `/issue-kit:implement-issue <n>` takes a `bug` issue through the Bug lane: reproduce, fix the root cause, add a regression test.
   - type: textarea
     id: description
     attributes:

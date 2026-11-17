@@ -1,17 +1,17 @@
 # CLAUDE.md — AddressBook
 
-Project guidance for both **Claude Code** and **GitHub Copilot** — both tools read this file.
+Project guidance for **Claude Code**.
 
-This file is intentionally a **thin hub**: it owns only the few rules that live nowhere else, and points to the authoritative docs for everything else. Nothing here restates build commands, project structure, or coding conventions — those have a single source of truth (the specs and the instruction files), and duplicating them here would only drift out of sync.
+This file is intentionally a **thin hub**: it owns only the few rules that live nowhere else, and points to the authoritative docs for everything else. Nothing here restates build commands, project structure, or coding conventions — those have a single source of truth (the specs and the rules in `.claude/rules/`), and duplicating them here would only drift out of sync.
 
 ## Always
 
 - **All comments in source code (`//`, `///` XML docs, `<!-- -->`, `#`) MUST be written in English** — never Russian or any other language. If you touch a file that still has non-English comments, translate them. (Docs under `docs/` and READMEs are not source code and are unaffected.)
 - **A comment states what the code does and why, in the present tense, and makes sense without the issue tracker or the file's history.** Never write change narration ("added", "now", "previously", "fixed"), issue or task references (`#123`, `B15`), line numbers, or a restatement of what the code plainly says.
-- When a Git commit is requested, use the `git-commit` skill and follow its message conventions; do not hand-write commit messages in another format.
+- When a Git commit is requested, use the `issue-kit:git-commit` skill and follow its message conventions; do not hand-write commit messages in another format. Pull requests follow `issue-kit:open-pr`, issue comments `issue-kit:github-issue`. The plugin's `PostToolUse` hook checks every new commit message.
 - **Never `git commit` or `git push` on your own initiative.** Do it only when the user's current message explicitly asks for it (for example "commit", "push", "open a PR"). Permission covers only the action named and does not carry over to later edits: after the user asks for further changes — even on an already-pushed branch or open PR — make the changes, verify them, then stop and ask before committing or pushing again. Never force-push or rewrite pushed history without an explicit request.
-- **Never comment on, create or edit an issue, and never open or merge a pull request, without the user's explicit go-ahead for that action.** The one standing exception: starting `/implement-issues` authorises its commits (one per issue); push, PR and comments still wait for a go-ahead unless the command carries `--ship`. A PR targets `main`, its description contains `Closes #<n>`, and the user merges it with a merge commit.
-- **Never create, switch, rename or delete a branch, and never stash, on your own initiative** — not to prepare work, not to tidy up after a mistake. Do it only when the user's current message asks for it. The one built-in exception is a task branch created together with a commit the user has asked for; the workflow in `.ai/prompts/implement-issue.md` (step 0) and `.ai/prompts/implement-issues.md` says when. Work stays on the branch you were started on; if that is a problem, say so and ask.
+- **Never comment on, create or edit an issue, and never open or merge a pull request, without the user's explicit go-ahead for that action.** The one standing exception: starting `/issue-kit:implement-issues` authorises its commits (one per issue); push, PR and comments still wait for a go-ahead unless the command carries `--ship`. A PR targets `main`, its description contains `Closes #<n>`, and the user merges it with a merge commit.
+- **Never create, switch, rename or delete a branch, and never stash, on your own initiative** — not to prepare work, not to tidy up after a mistake. Do it only when the user's current message asks for it. The one built-in exception is a task branch created together with a commit the user has asked for; the `issue-kit:implement-issue` and `issue-kit:implement-issues` skills say when. Work stays on the branch you were started on; if that is a problem, say so and ask.
 
 ## Where things live (read the source — do not restate it here)
 
@@ -19,11 +19,11 @@ This file is intentionally a **thin hub**: it owns only the few rules that live 
 - **API — build/run, endpoints, CQRS (MediatR) / FluentValidation / RFC 7807, domain, data access** → [docs/specs/AddressBook.Api.md](docs/specs/AddressBook.Api.md)
 - **Web — build/run, launch profiles & ports, Blazor WASM + MudBlazor conventions, API service, pages** → [docs/specs/AddressBook.Web.md](docs/specs/AddressBook.Web.md)
 - **Vue frontend — build/run, configuration, Vuetify components, API client, pages, deliberate differences from Blazor** → [docs/specs/AddressBook.Vue.md](docs/specs/AddressBook.Vue.md); how to run it: [src/AddressBook.Vue/README.md](src/AddressBook.Vue/README.md)
-- **Vue component tests (Vitest) — run & conventions** → [src/AddressBook.Vue/README.md](src/AddressBook.Vue/README.md#tests), [.github/instructions/vue.instructions.md](.github/instructions/vue.instructions.md)
+- **Vue component tests (Vitest) — run & conventions** → [src/AddressBook.Vue/README.md](src/AddressBook.Vue/README.md#tests), [.claude/rules/vue.md](.claude/rules/vue.md)
 - **Learning guide: Vue for Blazor developers (in Russian)** → [docs/guides/vue-for-blazor-developers.md](docs/guides/vue-for-blazor-developers.md)
 - **Contracts — commands, queries, models** → [docs/specs/AddressBook.Contracts.md](docs/specs/AddressBook.Contracts.md)
 - **API E2E tests — run & conventions** → [src/ApiTests/README.md](src/ApiTests/README.md)
-- **Web component tests (bUnit) — run & conventions** → [src/AddressBook.Web.Tests/README.md](src/AddressBook.Web.Tests/README.md), [.github/instructions/bunit-conventions.instructions.md](.github/instructions/bunit-conventions.instructions.md)
+- **Web component tests (bUnit) — run & conventions** → [src/AddressBook.Web.Tests/README.md](src/AddressBook.Web.Tests/README.md), [.claude/rules/bunit.md](.claude/rules/bunit.md)
 - **UI E2E tests (planned)** → [docs/tasks/ui-tests-framework-plan.md](docs/tasks/ui-tests-framework-plan.md)
 
 Solution file: `src/AddressBook.slnx`.
@@ -35,60 +35,39 @@ Solution file: `src/AddressBook.slnx`.
 - When a change spans the API and the Web frontend, wire both sides so the feature is complete.
 - For a feature request, list the decisions neither the request nor the code settles (lengths and formats, required vs optional, uniqueness, where it shows and whether it is searchable, existing data) and ask the user to confirm them before implementing — do not pick them silently. Routine naming and layout calls are yours.
 - New or changed API behaviour ships with Playwright tests in `src/ApiTests` (happy path, boundaries, negatives).
-- Entry points: `/implement-issue <n>` takes one issue (bug, feature or tests) end to end; `/implement-issues <n> <n> …` takes several small issues in order on one branch, one commit each, and ships one PR; `/next-issue` (the `next-issue` skill) recommends what to take next. How the AI harness is built: [docs/ai/README.md](docs/ai/README.md); one document per command next to it in [docs/ai/](docs/ai/) (step tree and flowchart).
+- Entry points: `/issue-kit:implement-issue <n>` takes one issue (bug, feature or tests) end to end; `/issue-kit:implement-issues <n> <n> …` takes several small issues in order on one branch, one commit each, and ships one PR; `/issue-kit:next-issue` recommends what to take next. The workflow comes from the `issue-kit` plugin of the `askrinnik/ai-plugins` marketplace; `issue-kit.config.json` holds this repository's values (commands, plan location, lanes, project agents in `roles`). How the AI harness is built: [docs/ai/README.md](docs/ai/README.md).
 
 ## File-type coding standards
 
-The `.github/instructions/*.instructions.md` files are the single source of truth for these standards. **Copilot** applies them via the `applyTo` globs in each file's front matter. **Claude Code** does not understand `applyTo`; it loads them through thin path-scoped rules in `.claude/rules/` — each rule has a `paths:` list mirroring the instruction's `applyTo` and tells you to read the instruction file before editing (no `@`-import, which would load it into every session). When you change an `applyTo`, change the matching rule's `paths:` too. If a standard did not load, read the file from this table before editing.
+The rules in `.claude/rules/` are the single source of truth for these standards. Claude Code loads a rule when it works with a file that matches the rule's `paths:`. If a standard did not load, read the rule from this table before editing.
 
-| Topic / file type | Instruction file |
+| Topic / file type | Rule |
 |---|---|
-| API architecture (`src/AddressBook.Api/**`) | `.github/instructions/api-architecture.instructions.md` |
-| C# (`**/*.cs`) | `.github/instructions/csharp.instructions.md` |
-| Blazor project-specific (MudBlazor / WASM) | `.github/instructions/blazor.project-specific.instructions.md` |
-| Playwright E2E — API (`src/ApiTests/**`) and UI (`src/UiTests/**`) | `.github/instructions/playwright-conventions.instructions.md` |
-| bUnit component tests (`src/AddressBook.Web.Tests/**`) | `.github/instructions/bunit-conventions.instructions.md` |
-| Vue frontend and its Vitest tests (`src/AddressBook.Vue/**`) | `.github/instructions/vue.instructions.md` |
+| API architecture (`src/AddressBook.Api/**`) | `.claude/rules/api-architecture.md` |
+| C# (`**/*.cs`) | `.claude/rules/csharp.md` |
+| Blazor project-specific (MudBlazor / WASM) | `.claude/rules/blazor.md` |
+| Playwright E2E — API (`src/ApiTests/**`) and UI (`src/UiTests/**`) | `.claude/rules/playwright.md` |
+| bUnit component tests (`src/AddressBook.Web.Tests/**`) | `.claude/rules/bunit.md` |
+| Vue frontend and its Vitest tests (`src/AddressBook.Vue/**`) | `.claude/rules/vue.md` |
+| GitHub Actions workflows (`.github/workflows/**`) | `.claude/rules/github-actions.md` |
 
-> The Playwright conventions file covers both the API suites and the UI E2E suite (`src/UiTests`, in its own section). Claude Code also auto-loads `src/UiTests/CLAUDE.md` and `src/AddressBook.Web.Tests/CLAUDE.md` when working in those subtrees.
+> The Playwright rule covers both the API suite and the UI E2E suite (`src/UiTests`, in its own section). Claude Code also loads `src/UiTests/CLAUDE.md` and `src/AddressBook.Web.Tests/CLAUDE.md` when working in those subtrees.
 
-The four generic, always-on instruction files that used to load on every file (security/OWASP, web performance, generic code review, docs-sync) are now **on-demand skills** instead — `security-owasp`, `web-performance`, `code-review-checklist`, `update-docs` — so they no longer sit in context permanently; invoke them (or the built-in `/code-review` and `/security-review`) when that pass is actually needed.
+The generic checklists — `security-owasp`, `web-performance`, `code-review-checklist`, `update-docs` — are **on-demand skills**; invoke them (or the built-in `/code-review` and `/security-review`) when that pass is actually needed.
 
-`.claude/rules/update-docs-on-code-change.md` (Claude Code only) says which document each kind of code change updates, in the same change.
+`.claude/rules/update-docs-on-code-change.md` says which document each kind of code change updates, in the same change.
 
-For conventions scoped to one project, a directory-scoped `CLAUDE.md` next to the code also works (Claude Code loads it when working in that subtree). Keep it short and non-duplicating; the `.github/instructions/*` file stays the single source of truth.
+## Custom agents (`.claude/agents/`)
 
-## Custom agents
+The workflow agents `issue-kit:issue-planner`, `issue-kit:issue-developer`, `issue-kit:build-runner` and `issue-kit:skill-runner` come from the plugin; `issue-kit.config.json` names the project agents below in its `roles`.
 
-- **GitHub Copilot** loads the full set from `.github/agents/<name>.agent.md` — this folder is Copilot's, and its contents are curated for Copilot, not pruned by Claude Code's capabilities.
-- **Claude Code** loads a **curated subset** from `.claude/agents/<name>.md` (invoked via the Agent tool, `subagent_type` = the agent name). Only the agents whose role is **not already covered by a Claude Code built-in** are translated here; the body stays aligned with the Copilot source, the front matter is translated (lowercase `name` matching the filename, Claude tool names, short `model` alias).
-
-The subset currently exposed to Claude Code:
-
-- **architect** — designs changes that preserve project boundaries; surfaces trade-offs (design before implementation).
-- **software-engineer** — implements features/fixes across the API + Blazor stack.
+- **issue-verifier** (Sonnet, `roles.verifier`) — reproduces a bug or walks the acceptance items in a real browser; returns an evidence table.
+- **playwright-tester** (Sonnet, `roles.testAuthor`) — writes and stabilises the Playwright API/UI E2E tests.
+- **security-reviewer** (Opus, `roles.securityReviewer`) — read-only security review of a change, run when API, configuration or packages change.
+- **architect** (Opus, `roles.architect`) — designs changes that preserve project boundaries; surfaces trade-offs.
+- **software-engineer** — implements features/fixes across the API + Blazor stack outside the issue workflow.
 - **csharp-dotnet-janitor** — C#/.NET cleanup, modernization, tech-debt remediation.
-- **playwright-tester** — writes/stabilises the Playwright API/UI E2E tests.
 - **project-documenter** — generates project documentation (read-only on source).
 - **orchestrator** — decomposes a multi-step request and delegates to the specialists.
 
-Workflow agents of `/implement-issue` (each pinned to the model that fits its stage; see the *Delegation* table in [.ai/prompts/implement-issue.md](.ai/prompts/implement-issue.md)):
-
-- **issue-planner** (Opus) — read-only research; returns the plan text with an S/M/L complexity.
-- **issue-developer** (Sonnet; the workflow passes Opus for `L`) — implements the approved plan with tests; never commits or posts.
-- **issue-verifier** (Sonnet) — reproduces a bug or walks the acceptance items in a real browser; returns an evidence table.
-- **security-reviewer** (Opus) — read-only security review of a change, run when API, configuration or packages change.
-- **build-runner** (Haiku) — runs the build, the bUnit tests and both Playwright suites and returns the runners' summary lines verbatim; never edits or fixes anything.
-- **skill-runner** (Haiku) — carries out one approved commit, issue comment or pull request end to end by following the matching skill (`git-commit`, `github-issue`, `open-pr`); never pushes and never acts beyond that one action. The caller gets the user's go-ahead first.
-
-Not translated to `.claude/agents` because a **Claude Code** built-in already covers the role (this is a Claude-Code judgement only — it says nothing about whether Copilot needs the corresponding `.github/agents` file): planning → the `Plan` agent; research → `Explore` / general-purpose; review → the `/code-review` skill; plus debugging/QA/design/regression roles handled inline or by general-purpose.
-
-> Agent parity is **manual** — the `sync-ai-customizations` audit covers skills and prompts, **not** agents. `.claude/agents` is a deliberate subset of `.github/agents`, so it is not expected to match one-to-one. After editing a shared agent on one side, mirror the change (body aligned, front matter translated) on the other.
-
-## Cross-tool skills & commands
-
-Layout, mirroring rules, and the exclusion list are defined in [.ai/customizations.policy.json](.ai/customizations.policy.json); the mechanics and audit are the `sync-ai-customizations` skill. In short: `.github/skills/` is the source of truth, mirrored byte-for-byte to `.claude/skills/`; repo-local skills use the `_local.` prefix and are still invoked as `/<name>`. Commands keep their body once in `.ai/prompts/<name>.md` with thin wrappers in `.github/prompts/` (Copilot) and `.claude/commands/` (Claude). Audit the layout with:
-
-```
-pwsh -File .github/skills/_local.sync-ai-customizations/scripts/check.ps1
-```
+Roles a Claude Code built-in already covers have no project agent: planning → the `Plan` agent; research → `Explore` / general-purpose; review → the `/code-review` skill.

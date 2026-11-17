@@ -98,10 +98,10 @@ src/AddressBook.Web.Tests/
 ## Конвенции
 
 Конвенции (контекст, именование, данные, моки, харнессы, локаторы, ассерты, асинхронность) описаны в
-[`bunit-conventions.instructions.md`](../../.github/instructions/bunit-conventions.instructions.md) —
+[`.claude/rules/bunit.md`](../../.claude/rules/bunit.md) —
 единственном источнике правил для этого набора тестов.
 
-Общие правила C# — [`csharp.instructions.md`](../../.github/instructions/csharp.instructions.md);
+Общие правила C# — [`.claude/rules/csharp.md`](../../.claude/rules/csharp.md);
 правила для агентов — [`CLAUDE.md`](CLAUDE.md).
 
 ## Отладка

@@ -1,0 +1,45 @@
+{
+  "commands": {
+    "build": "dotnet build src/AddressBook.slnx -clp:ErrorsOnly",
+    "testFull": "dotnet test --project src/AddressBook.Web.Tests --no-build",
+    "testExtra": [
+      "npm --prefix src/ApiTests test -- --reporter=line",
+      "npm --prefix src/UiTests test -- --reporter=line",
+      "npm --prefix src/AddressBook.Vue test"
+    ],
+    "testProject": "dotnet test --project src/{project} --no-build",
+    "format": "npm --prefix src/AddressBook.Vue run format:check"
+  },
+  "plans": {
+    "dir": "docs/tasks",
+    "nameTemplate": "issue-{n}-{slug}.md"
+  },
+  "lanes": {
+    "bug": ["bug"],
+    "testAuthoring": ["testing"]
+  },
+  "roles": {
+    "testAuthor": "playwright-tester",
+    "verifier": "issue-verifier",
+    "architect": "architect",
+    "securityReviewer": "security-reviewer",
+    "debugSkill": "debug-issue",
+    "testsSkill": "write-tests"
+  },
+  "securityReview": {
+    "triggers": [
+      "src/AddressBook.Api/Controllers/**",
+      "src/AddressBook.Api/**/*Validator.cs",
+      "src/AddressBook.Api/DataAccess/**",
+      "src/AddressBook.Api/Program.cs",
+      "src/**/appsettings*.json",
+      ".github/workflows/**",
+      "src/Directory.Packages.props",
+      ".config/dotnet-tools.json",
+      "**/package.json"
+    ]
+  },
+  "commentReview": {
+    "globs": ["*.cs", "*.razor", "*.ts", "*.vue"]
+  }
+}

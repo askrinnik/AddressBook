@@ -5,8 +5,6 @@ description: Reproduce and diagnose a defect in AddressBook systematically — r
 
 # Debug Issue
 
-> Local skill note: Ported from the GitHubBackup repository harness; repository-specific, no canonical upstream skill in github/awesome-copilot.
-
 Diagnose a defect systematically and validate the fix with the existing test suites.
 
 Ask for the failing behaviour, the steps or request, and any error message if they are not already clear.
@@ -25,6 +23,6 @@ Ask for the failing behaviour, the steps or request, and any error message if th
 3. **Find the root cause, not the symptom.** Follow the request across the layers — Web page → `IAddressBookApiService` → Contracts → controller → MediatR handler / FluentValidation validator → repository / EF Core configuration — and name the type and member where the wrong decision is made, and why it is wrong.
 4. **Fix minimally** in that layer, keeping the architecture and conventions; no unrelated cleanup.
 5. **Validate:** the reproducing test now passes, every existing test still passes, the build is clean, and the original repro no longer fails.
-6. **Record** the root cause and the fix in the shape of the Bug-lane comment of the `github-issue` skill (*Root Cause / Resolution / Verification*).
+6. **Record** the root cause and the fix in the shape of the Bug-lane comment of the `issue-kit:github-issue` skill (*Root Cause / Resolution / Verification*).
 
 Never "fix" a failure by weakening a test, deleting an assertion, retrying a flaky step, or swallowing an exception.

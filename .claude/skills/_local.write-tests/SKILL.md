@@ -5,8 +5,6 @@ description: Add focused tests for a behaviour or a bug fix in the correct Addre
 
 # Write Tests
 
-> Local skill note: Ported from the GitHubBackup repository harness; repository-specific, no canonical upstream skill in github/awesome-copilot.
-
 Add or update tests in the correct layer for the requested behaviour or bug fix.
 
 Ask for the target behaviour or the failing scenario if it is not already clear.
@@ -17,9 +15,9 @@ The lowest layer that can observe the behaviour wins.
 
 | Behaviour | Layer | Conventions |
 |---|---|---|
-| API contract: status codes, response shape, validation (RFC 7807 errors), filtering, sorting, paging | Playwright API — `src/ApiTests` | `.github/instructions/playwright-conventions.instructions.md` (API sections), `src/ApiTests/README.md` |
-| Blazor component or page logic: rendering, form validation, calls to `IAddressBookApiService`, navigation, error display | bUnit — `src/AddressBook.Web.Tests` | `.github/instructions/bunit-conventions.instructions.md`, `src/AddressBook.Web.Tests/README.md` |
-| A user flow across the real UI and API in a browser | Playwright UI E2E — `src/UiTests` | `.github/instructions/playwright-conventions.instructions.md` (UI section), `src/UiTests/CLAUDE.md` |
+| API contract: status codes, response shape, validation (RFC 7807 errors), filtering, sorting, paging | Playwright API — `src/ApiTests` | `.claude/rules/playwright.md` (API sections), `src/ApiTests/README.md` |
+| Blazor component or page logic: rendering, form validation, calls to `IAddressBookApiService`, navigation, error display | bUnit — `src/AddressBook.Web.Tests` | `.claude/rules/bunit.md`, `src/AddressBook.Web.Tests/README.md` |
+| A user flow across the real UI and API in a browser | Playwright UI E2E — `src/UiTests` | `.claude/rules/playwright.md` (UI section), `src/UiTests/CLAUDE.md` |
 
 A decision a component makes gets a bUnit test, not a browser test; a validation rule of the API gets an API test, not a UI test. A UI E2E test proves the slice is wired, not every branch.
 

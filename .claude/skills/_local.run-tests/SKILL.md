@@ -9,8 +9,6 @@ description: >
 
 # Run AddressBook API Tests (Playwright)
 
-> Local skill note: This skill is intentionally repository-specific for AddressBook and does not map to a canonical upstream skill in github/awesome-copilot.
-
 > Folder convention: API E2E tests live in `src/ApiTests` (this skill). UI end-to-end tests live in their own `src/UiTests` folder and are run separately. This skill targets the `src/ApiTests` framework described in `docs/tasks/api-tests-framework-plan.md`.
 
 ## Prerequisites

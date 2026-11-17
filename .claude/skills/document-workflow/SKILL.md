@@ -1,7 +1,7 @@
 ---
 name: document-workflow
 description: 'Write or update the human-readable document of an AI workflow (a slash command, prompt or skill that runs a multi-step process): a legend, a step tree in a code block and a Mermaid flowchart showing who does what at each step, with the fixed emoji set 💻 main session, 🤖 agent, 🧩 skill, 🙋 user wait. Use when asked to document, describe, diagram or visualise a workflow or command, or to bring an existing workflow document back in sync with its workflow.'
-argument-hint: '<workflow name or path>, e.g. implement-work-item or .ai/prompts/implement-work-item.md'
+argument-hint: '<workflow name or path>, e.g. implement-work-item or .claude/skills/implement-work-item/SKILL.md'
 ---
 
 # document-workflow
@@ -31,8 +31,7 @@ file that exists. In particular:
 ### 1. Find the workflow and everything it names
 
 1. Resolve the argument to the workflow **body**. Look, in this order, for: the path as given;
-   `.ai/prompts/<name>.md`; `.claude/commands/<name>.md`; `.github/prompts/<name>.prompt.md`;
-   `.claude/skills/<name>/SKILL.md` or `.github/skills/<name>/SKILL.md`. A thin wrapper that points to a
+   `.ai/prompts/<name>.md`; `.claude/commands/<name>.md`; `.claude/skills/<name>/SKILL.md`. A thin wrapper that points to a
    body (`@path`, "follow the workflow in …") is followed to that body; note every wrapper — the document
    names them.
 2. Read the body in full; it is the source. List: the steps and their numbers, lanes and how a lane is
@@ -40,13 +39,13 @@ file that exists. In particular:
    "back to step N", every outward action (commit, push, PR, comment, post) and whether it needs a
    go-ahead, and any context/compaction rules.
 3. For each agent, read only the front matter of its definition (`.claude/agents/<name>.md`, else
-   `.github/agents/<name>.agent.md`) for `model:`. Confirm each skill exists under the skills folder.
+   the `agents/<name>.md` of the plugin that provides it) for `model:`. Confirm each skill exists under the skills folder.
    Built-in agents with no definition file (e.g. `Explore`) are written without a model.
 
 ### 2. Decide where the document goes
 
 1. Search for an existing document of this workflow: grep the docs folders and the instruction hub
-   (`CLAUDE.md`, `AGENTS.md`, `.github/copilot-instructions.md`) for the command name. If one exists,
+   (`CLAUDE.md`) for the command name. If one exists,
    go to step 4 (**sync**).
 2. Otherwise propose a location and **ask before creating it**: the folder that already holds workflow or
    AI-harness documents, else `docs/ai/<workflow-name>.md`. Write in the language of the repository's

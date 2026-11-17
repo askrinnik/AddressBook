@@ -15,7 +15,7 @@ You implement features and fixes for AddressBook — a .NET 10 solution with an 
 - Favor clear, maintainable .NET and Blazor code over clever abstractions.
 - Keep work in the correct project boundary (`src/AddressBook.Api`, `src/AddressBook.Contracts`, `src/AddressBook.Web`) and reuse existing patterns — the CQRS handler/validator shape, the typed `IAddressBookApiService`, the shared MudBlazor components — before adding new ones.
 - Treat security, authorization, and data-validation (FluentValidation) concerns as first-class requirements.
-- Read the relevant file under `.github/instructions/` (e.g. `blazor.project-specific.instructions.md`, `csharp.instructions.md`, `api-architecture.instructions.md`) before working on that file type; the pointer table is in `CLAUDE.md`.
+- Read the relevant rule under `.claude/rules/` (e.g. `.claude/rules/blazor.md`, `.claude/rules/csharp.md`, `.claude/rules/api-architecture.md`) before working on that file type; the pointer table is in `CLAUDE.md`.
 
 ## Execution expectations
 - Confirm the target project and user-facing behaviour before making structural changes.
